@@ -1,0 +1,19 @@
+git:
+  pagers:
+    - colorArg: always
+      pager: delta --paging=never --syntax-theme=none --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+  commit:
+    signOff: false
+  autoFetch: true
+  autoRefresh: true
+os:
+  edit: 'nvim {{filename}}'
+  editAtLine: 'nvim +{{line}} {{filename}}'
+gui:
+  sidePanelWidth: 0.3333
+  mainPanelSplitMode: 'flexible'
+  expandFocusedSidePanel: true
+refresher:
+  refreshInterval: 10
+confirmOnQuit: false
+quitOnTopLevelReturn: true
