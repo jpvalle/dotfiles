@@ -116,6 +116,7 @@ export PAGER=less
 export GIT_EDITOR=nvim
 
 alias dev="~/Developer"
+alias wake_wsl='~/.ssh/wake-wsl.sh'
 
 # history setup
 HISTFILE=$HOME/.zhistory
@@ -140,5 +141,9 @@ alias ls="eza --icons=always"
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
 
+autoload -Uz compinit
+compinit
+
+export OLLAMA_HOST="http://windows-pc:11434"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
