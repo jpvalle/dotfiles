@@ -1,0 +1,2 @@
+- Need to install `stow`, [article about it](https://www.josean.com/posts/how-to-manage-dotfiles-with-gnu-stow).
+- Run `git config --local user.email "ID+username@users.noreply.github.com"` to push commits
