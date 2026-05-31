@@ -59,5 +59,14 @@ config.window_decorations = "RESIZE"
 config.window_background_opacity = 1.0
 config.macos_window_background_blur = 100
 
+-- Configure your leader key (recommended to avoid conflicts)
+config.leader = { key = "a", mods = "CTRL" }  -- Use Ctrl+a instead of default Ctrl+b
+
+-- Apply wez-tmux plugin with optional configuration
+require("plugins.wez-tmux.plugin").apply_to_config(config, {
+    -- Optional: Customize tab index base (0-based or 1-based)
+    tab_and_split_indices_are_zero_based = false 
+})
+
 -- and finally, return the configuration to wezterm
 return config
