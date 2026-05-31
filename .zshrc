@@ -1,3 +1,13 @@
+# Necessary for homebrew to work
+test -f /usr/local/bin/brew && eval "$(/usr/local/bin/brew shellenv zsh)"
+test -d /home/linuxbrew/.linuxbrew/ && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+
+# Necessary for fzf
+export FZF_BASE=$HOMEBREW_PREFIX/bin/fzf
+
+# brew install powerlevel10k first
+test -d $HOMEBREW_PREFIX && source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -15,7 +25,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -77,9 +87,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search fzf)
-
 source $ZSH/oh-my-zsh.sh
+
+source $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search fzf)
 
 # User configuration
 
@@ -131,9 +143,6 @@ setopt hist_verify
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # ---- Eza (better ls) -----
 
 alias ls="eza --icons=always"
@@ -146,5 +155,12 @@ compinit
 
 export PATH=/Users/jpvalle/.local/xonsh-env/xbin:$PATH
 export OLLAMA_HOST="http://windows-pc:11434"
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/dotfiles/.p10k.zsh.
+if  [[ "$(uname)" == "Linux" ]]; then
+    # Prompt for linux/remote computers
+    [[ ! -f ~/dotfiles/.p10k.remote.zsh ]] || source ~/dotfiles/.p10k.remote.zsh
+else
+    # Default prompt for Macos
+    [[ ! -f ~/dotfiles/.p10k.zsh ]] || source ~/dotfiles/.p10k.zsh
+fi

@@ -1,2 +1,7 @@
 - Need to install `stow`, [article about it](https://www.josean.com/posts/how-to-manage-dotfiles-with-gnu-stow).
 - Run `git config --local user.email "ID+username@users.noreply.github.com"` to push commits
+- Install homebrew: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+- Install with brew: `brew install gcc powerlevel10k zoxide eza fzf neovim lazygit`  
+- Install oh-my-zsh `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+- Autosuggestions: `git clone https://github.com/zsh-users/zsh-autosuggestions ~/dotfiles/.oh-my-zsh/custom/plugins/zsh-autosuggestions`
+- Syntax Highlighting: `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/dotfiles/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting`
