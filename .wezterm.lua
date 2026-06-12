@@ -1,7 +1,8 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
 
--- color scheme follows system (does not work with the mux)
+-- wezterm.gui is not available to the mux server, so take care to
+-- do something reasonable when this config is evaluated by the mux
 function get_appearance()
     if wezterm.gui then
         return wezterm.gui.get_appearance()
@@ -28,14 +29,19 @@ function scheme_for_gradient(appearance)
             '#11111b',
             '#181825',
             '#1e1e2e',
-            '#313244'
+            '#313244',
         }
-        gradient.colors = { '#000000' }
+        gradient.colors = {
+            '#000000'
+        }
     else
         gradient.orientation = { Radial = { radius = 1.15 } }
         gradient.colors = {
             '#eff1f5',
             '#dce0e8'
+        }
+        gradient.colors = {
+            '#fffffb'
         }
     end
     return gradient
