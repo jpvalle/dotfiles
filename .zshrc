@@ -1,6 +1,7 @@
 # Necessary for homebrew to work
 test -f /usr/local/bin/brew && eval "$(/usr/local/bin/brew shellenv zsh)"
 test -d /home/linuxbrew/.linuxbrew/ && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+test -d /opt/homebrew/ && eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 
 # Necessary for fzf
 export FZF_BASE=$HOMEBREW_PREFIX/bin/fzf
