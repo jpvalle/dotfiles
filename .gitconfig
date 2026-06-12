@@ -1,10 +1,10 @@
 # This is Git's per-user configuration file.
-[user]
-# Please adapt and uncomment the following lines:
-	name = Jose Pablo Valle
-	email = jp.valle.one@icloud.com
-
 [core]
 	editor = vim
 [init]
 	defaultBranch = main
+
+[includeIf "gitdir:~/dotfiles/"]
+  path = .gitconfig-personal
+[includeIf "gitdir:~/"]
+  path = .gitconfig-dtex
