@@ -1,10 +1,80 @@
 # This is Git's per-user configuration file.
 [core]
-	editor = vim
+	excludesFile = ~/.config/git/gitignore
+	editor = nvim
+	pager = delta
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/jose.valle/.stCommitMsg
 [init]
 	defaultBranch = main
+[pull]
+	ff = false
+	rebase = true
+[rebase]
+	autostash = true
+[push]
+	autoSetupRemote = true
+	default = current
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	line-numbers = true
+	plus-style = "#a6e3a1 bold"
+	minus-style = "#f38ba8 bold"
+	plus-emph-style = "syntax \"#40a02b\" bold"
+	minus-emph-style = "syntax \"#d20f39\" bold"
+	file-style = "#f9e2af bold"
+	hunk-header-style = omit
+	line-numbers-plus-style = "#a6e3a1"
+	line-numbers-minus-style = "#f38ba8"
+	line-numbers-zero-style = "#6c7086"
+	features = adaptive-side-by-side
+	map-styles = "bold purple => syntax \"#cba6f7\", bold cyan => syntax \"#89dceb\""
+	file-added-label = added:
+	file-removed-label = removed:
+	file-modified-label = modified:
+	file-renamed-label = renamed:
+	width = variable
+	wrap-max-lines = unlimited
+	max-line-distance = 0.6
+	inspect-raw-lines = false
+	tabs = 4
+	syntax-theme = catppuccin-latte
+	light = true
+	moved-line-style = "#89b4fa"
+	moved-line-alt-style = "#74c7ec"
+	zero-style = white
+	whitespace-error-style = reverse purple
+	color-moved = false
+	hunk-header-decoration-style = omit
+	side-by-side = false
+[delta "adaptive-side-by-side"]
+	min-width = 50
+	max-width = 120
+[pager]
+	diff = delta | less -+F -+X -R
+[alias]
+	difft = diff --color=always | delta-tmux
+	showt = show --color=always | delta-tmux
+	logt = log -p --color=always | delta-tmux
+	# Diff without deleted files (Modified and Added only)
+	diffnd = diff --diff-filter=AM
+	# Show with file ordering: Modified, Added, then Deleted (separate commands)
+	diffma = diff --diff-filter=MA
+	showma = show --diff-filter=MA
+[gui]
+	skipDiscardChangeWarning = true
+[remote]
+	pushDefault = origin
 
 [includeIf "gitdir:~/dotfiles/"]
   path = .gitconfig-personal
+
 [includeIf "gitdir:~/"]
   path = .gitconfig-dtex
