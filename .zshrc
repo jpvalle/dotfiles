@@ -1,3 +1,5 @@
+export PATH="$HOME/.local/bin:$PATH"
+
 # Necessary for homebrew to work
 test -f /usr/local/bin/brew && eval "$(/usr/local/bin/brew shellenv zsh)"
 test -d /home/linuxbrew/.linuxbrew/ && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
@@ -128,9 +130,6 @@ export EDITOR=nvim
 export PAGER=less
 export GIT_EDITOR=nvim
 
-alias dev="~/Developer"
-alias wake_wsl='~/.ssh/wake-wsl.sh'
-
 # history setup
 HISTFILE=$HOME/.zhistory
 SAVEHIST=1000
@@ -154,8 +153,9 @@ eval "$(zoxide init zsh)"
 autoload -Uz compinit
 compinit
 
-export PATH=/Users/jpvalle/.local/xonsh-env/xbin:$PATH
-export OLLAMA_HOST="http://windows-pc:11434"
+# Personal mac specific config
+test -f /usr/local/bin/brew && export PATH=$HOME/.local/xonsh-env/xbin:$PATH
+test -f /usr/local/bin/brew && export OLLAMA_HOST="http://windows-pc:11434"
 
 # To customize prompt, run `p10k configure` or edit ~/dotfiles/.p10k.zsh.
 if  [[ "$(uname)" == "Linux" ]]; then
