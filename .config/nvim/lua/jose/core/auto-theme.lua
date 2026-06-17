@@ -1,6 +1,8 @@
 -- Auto theme switching based on macOS appearance
 local M = {}
 
+local last_appearance = nil
+
 -- Function to get macOS appearance
 local function get_macos_appearance()
   local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null")
@@ -16,62 +18,17 @@ end
 
 -- Function to set theme based on appearance
 local function set_theme_for_appearance(appearance)
+  if appearance == last_appearance then
+    return
+  end
+  last_appearance = appearance
+
   if appearance == "dark" then
+    vim.o.background = "dark"
     vim.cmd.colorscheme("catppuccin-mocha")
-    -- Update the catppuccin flavor setting
-    require("catppuccin").setup({
-      flavor = "mocha",
-      styles = {
-        comments = { "italic" },
-        conditionals = {},
-        loops = {},
-        functions = {},
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-        operators = {},
-      },
-      transparent_background = true,
-      dim_inactive = {
-        enabled = true,
-        shade = "dark",
-        percentage = 0.01,
-      },
-      term_colors = true,
-    })
-    vim.cmd("redraw!")  -- Force redraw to apply theme immediately
   else
+    vim.o.background = "light"
     vim.cmd.colorscheme("catppuccin-latte")
-    -- Update the catppuccin flavor setting
-    require("catppuccin").setup({
-      flavor = "latte",
-      styles = {
-        comments = { "italic" },
-        conditionals = {},
-        loops = {},
-        functions = {},
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-        operators = {},
-      },
-      transparent_background = true,
-      dim_inactive = {
-        enabled = true,
-        shade = "dark",
-        percentage = 0.01,
-      },
-      term_colors = true,
-    })
-    vim.cmd("redraw!")  -- Force redraw to apply theme immediately
   end
 end
 
@@ -110,12 +67,13 @@ function M.setup()
   local current_appearance = get_macos_appearance()
   set_theme_for_appearance(current_appearance)
   
-  -- Create an autocommand that checks appearance when Neovim gains focus
-  vim.api.nvim_create_autocmd({"FocusGained", "VimEnter"}, {
+  -- Sync when focus returns; defer so treesitter isn't forced during VimEnter
+  vim.api.nvim_create_autocmd("FocusGained", {
     group = vim.api.nvim_create_augroup("AutoTheme", { clear = true }),
     callback = function()
-      local appearance = get_macos_appearance()
-      set_theme_for_appearance(appearance)
+      vim.schedule(function()
+        set_theme_for_appearance(get_macos_appearance())
+      end)
     end,
     desc = "Auto switch theme based on macOS appearance"
   })

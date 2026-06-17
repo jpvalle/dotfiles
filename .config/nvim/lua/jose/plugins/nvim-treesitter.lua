@@ -1,30 +1,12 @@
 return {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
     build = ":TSUpdate",
     event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-        "windwp/nvim-ts-autotag",
-    },
+    dependencies = { "windwp/nvim-ts-autotag" },
     config = function()
-
-        local configs = require("nvim-treesitter.configs")
-        configs.setup({
-
-            sync_install = false,
-            incremental_selection = {
-                enable = true,
-            },
-
-            highlight = {
-                enable = true,
-            },
-            -- enable indentation
-            indent = { enable = true },
-            -- enable autotagging (w/ nvim-ts-autotag plugin)
-            autotag = {
-              enable = true,
-            },
-            -- ensure these language parsers are installed
+        require("nvim-treesitter").setup()
+        require("nvim-treesitter.configs").setup({
             ensure_installed = {
                 "lua",
                 "luadoc",
@@ -45,13 +27,26 @@ return {
                 "json",
                 "yaml",
                 "sql",
-            },
-            keymaps = {
-              init_selection = "<C-space>",
-              node_incremental = "<C-space>",
-              scope_incremental = false,
-              node_decremental = "<bs>",
-            },
+                "jinja",
+            }
         })
+        local langs = {
+            "lua",
+            "python",
+            "bash",
+            "json",
+            "yaml",
+            "markdown",
+        }
+
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = langs,
+            callback = function()
+                vim.treesitter.start()
+                vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end
+        })
+
+        require("nvim-ts-autotag").setup()
     end,
 }
