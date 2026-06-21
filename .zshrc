@@ -1,15 +1,7 @@
+# # uncomment for timing testing (and one at the bottom too)
+# zmodload zsh/zprof
+
 export PATH="$HOME/.local/bin:$PATH"
-
-# Necessary for homebrew to work
-test -f /usr/local/bin/brew && eval "$(/usr/local/bin/brew shellenv zsh)"
-test -d /home/linuxbrew/.linuxbrew/ && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
-test -d /opt/homebrew/ && eval "$(/opt/homebrew/bin/brew shellenv zsh)"
-
-# Necessary for fzf
-export FZF_BASE=$HOMEBREW_PREFIX/bin/fzf
-
-# brew install powerlevel10k first
-test -d $HOMEBREW_PREFIX && source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -17,6 +9,24 @@ test -d $HOMEBREW_PREFIX && source $HOMEBREW_PREFIX/share/powerlevel10k/powerlev
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# Necessary for homebrew to work
+if [[ -f /usr/local/bin/brew ]]; then
+    # Personal mac specific config
+    export PATH=$HOME/.local/xonsh-env/xbin:$PATH
+    export OLLAMA_HOST="http://windows-pc:11434"
+    eval "$(/usr/local/bin/brew shellenv zsh)"
+elif [[ -d /home/linuxbrew/.linuxbrew/ ]]; then
+    # Linux config
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
+elif [[ -d /opt/homebrew/ ]]; then
+    # Work Laptop Config
+    export PATH=/Users/jose.valle/Developer/DTEXSERVER/dch-tools/.venv/bin:$PATH
+    eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+fi
+
+# Necessary for fzf
+export FZF_BASE=$HOMEBREW_PREFIX/bin/fzf
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
@@ -59,7 +69,7 @@ fi
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
 # zstyle ':omz:update' frequency 13
@@ -103,11 +113,8 @@ fi
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+plugins=(git web-search fzf zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
-
-source $ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search fzf)
 
 # User configuration
 
@@ -163,12 +170,8 @@ alias ls="eza --icons=always"
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
 
-autoload -Uz compinit
-compinit
-
-# Personal mac specific config
-test -f /usr/local/bin/brew && export PATH=$HOME/.local/xonsh-env/xbin:$PATH
-test -f /usr/local/bin/brew && export OLLAMA_HOST="http://windows-pc:11434"
+# Keep this at the end of the file
+source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/dotfiles/.p10k.zsh.
 if  [[ "$(uname)" == "Linux" ]]; then
@@ -178,3 +181,5 @@ else
     # Default prompt for Macos
     [[ ! -f ~/dotfiles/.p10k.zsh ]] || source ~/dotfiles/.p10k.zsh
 fi
+# # uncomment for timing testing (and one at the top too)
+# zprof
