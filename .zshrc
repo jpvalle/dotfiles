@@ -24,6 +24,19 @@ fi
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+# ==========================================
+# VULKAN SDK ENVIRONMENT FOR LLAMA.CPP
+# ==========================================
+export VULKAN_SDK="$HOME/VulkanSDK/1.4.350.1/macOS"
+export VK_ICD_FILENAMES="$VULKAN_SDK/share/vulkan/icd.d/MoltenVK_icd.json"
+export VK_LAYER_PATH="$VULKAN_SDK/share/vulkan/explicit_layer.d"
+# Use an explicit check on DYLD to prevent system profile warnings
+if [[ -z "$DYLD_LIBRARY_PATH" ]]; then
+    export DYLD_LIBRARY_PATH="$VULKAN_SDK/lib"
+else
+    export DYLD_LIBRARY_PATH="$VULKAN_SDK/lib:$DYLD_LIBRARY_PATH"
+fi
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
