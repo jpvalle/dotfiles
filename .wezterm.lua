@@ -65,5 +65,8 @@ config.window_decorations = "RESIZE"
 config.window_background_opacity = 1.0
 config.macos_window_background_blur = 100
 
+-- Avoid using the gpu
+config.front_end = "Software"
+
 -- and finally, return the configuration to wezterm
 return config
