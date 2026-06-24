@@ -1,6 +1,7 @@
 # # uncomment for timing testing (and one at the bottom too)
 # zmodload zsh/zprof
 
+export XDG_CONFIG_HOME=$HOME/.config
 export PATH="$HOME/.local/bin:$PATH"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
