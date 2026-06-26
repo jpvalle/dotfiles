@@ -64,3 +64,13 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.diagnostic.enable(false, { bufnr = 0 }) -- Disable diagnostics for current buffer
   end,
 })
+
+-- Automatically set syntax for certain containerfile extensions and filenames
+vim.filetype.add({
+    filename = {
+        ["Containerfile"] = "dockerfile",
+    },
+    extension = {
+        ["containerfile"] = "dockerfile",
+    },
+})
