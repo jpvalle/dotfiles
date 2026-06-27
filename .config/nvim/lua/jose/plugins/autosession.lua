@@ -32,18 +32,14 @@ return {
       -- Don't create separate sessions per git branch
       git_use_branch_name = false,
       
-      -- Use current working directory for session names (workspace-specific)
-      cwd_change_handling = {
-        restore_upcoming_session = true,
-        pre_cwd_changed_hook = nil,
-        post_cwd_changed_hook = function()
-          -- Auto-save current session before changing directory
+      cwd_change_handling = true,
+      post_cwd_changed_cmds = {
+        function()
           require("auto-session").SaveSession()
         end,
       },
       
-      -- Enable logging for debugging session issues
-      log_level = "info",
+      log_level = "warn",
       
       -- Pre-save hook to clean up before saving
       pre_save_cmds = {

@@ -1,6 +1,8 @@
 return {
   "williamboman/mason.nvim",
+  lazy = false,
   dependencies = {
+    "neovim/nvim-lspconfig",
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
@@ -21,28 +23,32 @@ return {
 
     mason_lspconfig.setup({
       ensure_installed = {
-        "pyright", -- Python LSP
-        "ruff", -- Python linting/formatting (renamed from ruff_lsp)
-        "bashls", -- Bash LSP
-        "yamlls", -- YAML LSP
-        "jsonls", -- JSON LSP
-        "dockerls", -- Docker LSP
-        "html", -- HTML LSP
-        "cssls", -- CSS LSP
-        "lua_ls", -- Lua LSP
+        "pyright",
+        "ruff",
+        "bashls",
+        "yamlls",
+        "jsonls",
+        "dockerls",
+        "html",
+        "cssls",
+        "lua_ls",
+      },
+      automatic_enable = {
+        exclude = { "stylua", "pylsp" },
       },
     })
 
     mason_tool_installer.setup({
       ensure_installed = {
-        "prettier", -- JS/TS/JSON formatter
-        "stylua", -- Lua formatter
-        "autopep8", -- PEP8-compliant Python formatter
-        "flake8", -- Python linter that includes PEP8 checking (replaces pycodestyle)
-        "eslint_d", -- JS linter
-        "shellcheck", -- Shell script linter
-        "shfmt", -- Shell script formatter
+        "prettier",
+        "stylua",
+        "autopep8",
+        "flake8",
+        "eslint_d",
+        "shellcheck",
+        "shfmt",
       },
+      run_on_start = false,
     })
   end,
 }

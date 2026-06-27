@@ -4,8 +4,16 @@ vim.keymap.set("i", "jk", "<ESC>", { noremap = true, desc = "Exit insert mode wi
 vim.opt.termguicolors = true
 
 -- Disable unnecessary providers to clean up health warnings
-vim.g.loaded_perl_provider = 0  -- Disable Perl provider
-vim.g.loaded_ruby_provider = 0  -- Disable Ruby provider
+vim.g.loaded_perl_provider = 0 -- Disable Perl provider
+vim.g.loaded_ruby_provider = 0 -- Disable Ruby provider
+
+local python3 = vim.fn.exepath("python3.13")
+if python3 == "" then
+  python3 = vim.fn.exepath("python3")
+end
+if python3 ~= "" then
+  vim.g.python3_host_prog = python3
+end
 
 -- -- Setup server for remote editing BEFORE loading plugins
 -- -- This ensures lazygit can connect to this Neovim instance
