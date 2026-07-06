@@ -32,37 +32,8 @@ local function set_theme_for_appearance(appearance)
   end
 end
 
--- Function to setup named socket for external communication
-local function setup_socket()
-  local socket_dir = "/tmp/nvim-sockets"
-  local socket_name = "nvim-" .. vim.fn.getpid()
-  local socket_path = socket_dir .. "/" .. socket_name
-  
-  -- Create socket directory
-  vim.fn.system("mkdir -p " .. socket_dir)
-  
-  -- Set up server with named socket
-  if vim.fn.has('nvim') == 1 then
-    local ok, result = pcall(vim.fn.serverstart, socket_path)
-    if not ok then
-      -- Fallback to default serverstart if named socket fails
-      pcall(vim.fn.serverstart)
-    end
-  end
-  
-  -- Clean up socket on exit
-  vim.api.nvim_create_autocmd("VimLeave", {
-    callback = function()
-      vim.fn.system("rm -f " .. socket_path)
-    end,
-  })
-end
-
 -- Function to setup auto theme switching
 function M.setup()
-  -- Setup named socket for external communication
-  setup_socket()
-  
   -- Set initial theme based on current appearance
   local current_appearance = get_macos_appearance()
   set_theme_for_appearance(current_appearance)

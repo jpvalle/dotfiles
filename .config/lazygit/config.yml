@@ -6,9 +6,14 @@ git:
     signOff: false
   autoFetch: true
   autoRefresh: true
+  log:
+    order: "topo-order"
+  gitLogTimezone: "UTC"
 os:
-  edit: 'nvim {{filename}}'
-  editAtLine: 'nvim +{{line}} {{filename}}'
+  # Open files in the parent Neovim session (uses $NVIM_LISTEN_ADDRESS set per-session)
+  edit: 'nvr --remote-tab {{filename}}'
+  editAtLine: 'nvr +{{line}} --remote-tab {{filename}}'
+  editInTerminal: false
 gui:
   sidePanelWidth: 0.3333
   mainPanelSplitMode: 'flexible'

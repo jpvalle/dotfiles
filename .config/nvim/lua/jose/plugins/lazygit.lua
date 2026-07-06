@@ -11,8 +11,22 @@ return {
     "nvim-lua/plenary.nvim",
   },
   keys = {
-    { "<leader>lg", "<cmd>LazyGit<cr>", desc = "Open LazyGit" },
-    { "<leader>lf", "<cmd>LazyGitCurrentFile<cr>", desc = "LazyGit Current File" },
+    {
+      "<leader>lg",
+      function()
+        require("jose.core.nvim-server").export_env()
+        vim.cmd("LazyGit")
+      end,
+      desc = "Open LazyGit",
+    },
+    {
+      "<leader>lf",
+      function()
+        require("jose.core.nvim-server").export_env()
+        vim.cmd("LazyGitCurrentFile")
+      end,
+      desc = "LazyGit Current File",
+    },
     { "<leader>lc", "<cmd>LazyGitConfig<cr>", desc = "LazyGit Config" },
   },
   config = function()
