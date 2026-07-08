@@ -34,6 +34,8 @@ export FZF_BASE=$HOMEBREW_PREFIX/bin/fzf
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+# Custom scripts/plugins live outside ~/.oh-my-zsh so `omz update` keeps working
+export ZSH_CUSTOM="${XDG_CONFIG_HOME}/zsh/custom"
 
 # ==========================================
 # VULKAN SDK ENVIRONMENT FOR LLAMA.CPP
@@ -107,7 +109,7 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+# ZSH_CUSTOM is set above (~/.config/zsh/custom via stow)
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/

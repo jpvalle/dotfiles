@@ -3,5 +3,5 @@
 - Install homebrew: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 - Install with brew: `brew install gcc powerlevel10k zoxide eza fzf neovim lazygit`  
 - Install oh-my-zsh `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
-- Autosuggestions: `git clone https://github.com/zsh-users/zsh-autosuggestions ~/dotfiles/.oh-my-zsh/custom/plugins/zsh-autosuggestions`
-- Syntax Highlighting: `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/dotfiles/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting`
+- Autosuggestions: `git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.config/zsh/custom/plugins/zsh-autosuggestions`
+- Syntax Highlighting: `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.config/zsh/custom/plugins/zsh-syntax-highlighting`

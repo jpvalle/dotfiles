@@ -1,1 +1,9 @@
 *.DS_Store
+
+# Machine-local zsh custom (not committed)
+.config/zsh/custom/work-env.zsh
+.config/zsh/custom/aliases-work.zsh
+
+# Cloned locally; install per README
+.config/zsh/custom/plugins/zsh-autosuggestions/
+.config/zsh/custom/plugins/zsh-syntax-highlighting/
