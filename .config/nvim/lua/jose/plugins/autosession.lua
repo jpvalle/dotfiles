@@ -9,13 +9,12 @@ return {
       auto_restore = true,
       auto_save = true,
       auto_create = true,
-      
-      -- Directories to suppress auto-session
-      suppressed_dirs = { 
-        "~/", 
-        "~/Developer/", 
-        "~/Downloads", 
-        "~/Documents", 
+
+      -- Directories to suppress auto-session (do NOT include ~/Developer/ — work repos live there)
+      suppressed_dirs = {
+        "~/",
+        "~/Downloads",
+        "~/Documents",
         "~/Desktop/",
         "/tmp",
         "/",
@@ -65,11 +64,13 @@ return {
           pcall(vim.cmd, "NvimTreeRefresh")
         end,
       },
-      
-      -- Session directory
+
+      -- tmux-resurrect respawns `nvim` in the saved cwd; auto-session restores buffers.
+      -- Periodic save while in tmux matches continuum's 15-min save (survives kill-server/reboot).
+      -- Uses 'default' resurrect strategy (not mksession) to avoid conflicting with auto-session.
+
       root_dir = vim.fn.stdpath("data") .. "/sessions/",
-      
-      -- Bypass session save/restore for certain filetypes
+
       bypass_save_filetypes = {
         "alpha",
         "dashboard",
@@ -81,6 +82,14 @@ return {
         "trouble",
       },
     })
+
+    if vim.env.TMUX then
+      local interval_ms = 15 * 60 * 1000
+      local timer = vim.uv.new_timer()
+      timer:start(interval_ms, interval_ms, vim.schedule_wrap(function()
+        pcall(auto_session.auto_save_session)
+      end))
+    end
 
     local k = vim.keymap
 
