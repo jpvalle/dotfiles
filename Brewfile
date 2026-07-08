@@ -42,6 +42,8 @@ brew "fzf"
 brew "gawk"
 # Distributed revision control system
 brew "git"
+# Git status for tmux status bar and pane borders
+brew "gitmux"
 # Syntax-highlighting pager for git and diff output
 brew "git-delta"
 # Extensions to follow Vincent Driessen's branching model
