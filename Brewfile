@@ -44,6 +44,9 @@ brew "gawk"
 brew "git"
 # Git status for tmux status bar and pane borders
 brew "gitmux"
+# macOS light/dark watcher for tmux-dark-notify
+tap "cormacrelf/tap"
+brew "cormacrelf/tap/dark-notify"
 # Syntax-highlighting pager for git and diff output
 brew "git-delta"
 # Extensions to follow Vincent Driessen's branching model

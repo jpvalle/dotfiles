@@ -1,4 +1,5 @@
 - Need to install `stow`, [article about it](https://www.josean.com/posts/how-to-manage-dotfiles-with-gnu-stow).
+- After clone: `git submodule update --init --recursive` (catppuccin-powerlevel10k-themes for p10k)
 - Run `git config --local user.email "ID+username@users.noreply.github.com"` to push commits
 - Install homebrew: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 - Install with brew: `brew install gcc powerlevel10k zoxide eza fzf neovim lazygit`  

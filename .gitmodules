@@ -1,0 +1,3 @@
+[submodule ".config/zsh/custom/plugins/catppuccin-powerlevel10k-themes"]
+	path = .config/zsh/custom/plugins/catppuccin-powerlevel10k-themes
+	url = https://github.com/tolkonepiu/catppuccin-powerlevel10k-themes.git
