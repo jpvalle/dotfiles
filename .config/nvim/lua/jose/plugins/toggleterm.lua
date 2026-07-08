@@ -46,28 +46,5 @@ return {
 			pattern = [[term://*toggleterm#*]],
 			callback = set_terminal_keymaps,
 		})
-
-		-- Create a custom Q Chat terminal
-		local Terminal = require('toggleterm.terminal').Terminal
-		local qchat = Terminal:new({
-			cmd = "q chat -r",
-			hidden = true,
-			direction = "horizontal",
-			-- Use the same dynamic sizing as the main config
-			size = function(term)
-				if term.direction == "horizontal" then
-					return math.floor(vim.o.lines * 0.5)
-				elseif term.direction == "vertical" then
-					return math.floor(vim.o.columns * 0.5)
-				end
-			end,
-		})
-
-		function _QCHAT_TOGGLE()
-			qchat:toggle()
-		end
-
-		-- Set up keybinding for Q Chat terminal
-		k.set("n", "<leader>tc", "<cmd>lua _QCHAT_TOGGLE()<CR>", { desc = "Toggle Q Chat terminal" })
 	end,
 }
