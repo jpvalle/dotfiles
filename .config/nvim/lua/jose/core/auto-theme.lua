@@ -1,89 +1,146 @@
--- Auto theme switching based on macOS appearance
+-- Auto theme switching from ~/.config/theme/manifest.toml (via theme-sync state)
 local M = {}
 
-local last_appearance = nil
+local last_applied = nil
 
--- Function to get macOS appearance
+local function state_path()
+  return vim.fn.expand("~/.local/state/theme/current.json")
+end
+
 local function get_macos_appearance()
   local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null")
-  if handle then
-    local result = handle:read("*a")
-    handle:close()
-    -- If the command returns "Dark", we're in dark mode
-    -- If it returns nothing or errors, we're in light mode
-    return result:match("Dark") and "dark" or "light"
+  if not handle then
+    return "light"
   end
-  return "light" -- fallback to light mode
+  local result = handle:read("*a")
+  handle:close()
+  return result:match("Dark") and "dark" or "light"
 end
 
--- Function to set theme based on appearance
-local function set_theme_for_appearance(appearance)
-  if appearance == last_appearance then
+local function read_theme_state()
+  local path = state_path()
+  if vim.fn.filereadable(path) ~= 1 then
+    return nil
+  end
+
+  local ok, data = pcall(vim.fn.json_decode, vim.fn.readfile(path))
+  if not ok or type(data) ~= "table" then
+    return nil
+  end
+  return data
+end
+
+local function sync_theme_state()
+  require("jose.core.theme-sync").run()
+  return read_theme_state()
+end
+
+local function fallback_theme()
+  local appearance = get_macos_appearance()
+  if appearance == "dark" then
+    return {
+      appearance = "dark",
+      background = "dark",
+      colorscheme = "catppuccin-mocha",
+      p10k = "mocha",
+    }
+  end
+  return {
+    appearance = "light",
+    background = "light",
+    colorscheme = "catppuccin-latte",
+    p10k = "latte",
+  }
+end
+
+local function resolve_theme(state)
+  if state and state.tools then
+    return {
+      appearance = state.appearance or "dark",
+      background = state.tools.nvim_background or state.appearance or "dark",
+      colorscheme = state.tools.nvim or "catppuccin-mocha",
+      p10k = state.tools.p10k,
+      family = state.family,
+    }
+  end
+  return fallback_theme()
+end
+
+function M.apply(theme)
+  theme = theme or resolve_theme(read_theme_state())
+
+  local key = theme.appearance .. ":" .. theme.colorscheme .. ":" .. theme.background
+  if key == last_applied then
     return
   end
-  last_appearance = appearance
+  last_applied = key
 
-  if appearance == "dark" then
-    vim.o.background = "dark"
-    vim.cmd.colorscheme("catppuccin-mocha")
-  else
-    vim.o.background = "light"
-    vim.cmd.colorscheme("catppuccin-latte")
+  vim.o.background = theme.background
+  vim.cmd.colorscheme(theme.colorscheme)
+
+  if package.loaded["lualine"] then
+    vim.schedule(function()
+      require("lualine").refresh({ force = true })
+    end)
   end
 end
 
--- Function to setup auto theme switching
 function M.setup()
-  -- Set initial theme based on current appearance
-  local current_appearance = get_macos_appearance()
-  set_theme_for_appearance(current_appearance)
-  
-  -- Sync when focus returns; defer so treesitter isn't forced during VimEnter
+  M.apply(resolve_theme(sync_theme_state()))
+
   vim.api.nvim_create_autocmd("FocusGained", {
     group = vim.api.nvim_create_augroup("AutoTheme", { clear = true }),
     callback = function()
       vim.schedule(function()
-        set_theme_for_appearance(get_macos_appearance())
+        sync_theme_state()
+        M.apply(resolve_theme(read_theme_state()))
       end)
     end,
-    desc = "Auto switch theme based on macOS appearance"
+    desc = "Sync theme from central manifest",
   })
-  
-  -- Also create a command to manually trigger theme check
+
   vim.api.nvim_create_user_command("ThemeSync", function()
-    local appearance = get_macos_appearance()
-    set_theme_for_appearance(appearance)
-    print("Theme synced to macOS appearance: " .. appearance)
-  end, { desc = "Sync theme with macOS appearance" })
-  
-  -- Command to start the background daemon
-  vim.api.nvim_create_user_command("ThemeDaemonStart", function()
-    vim.fn.system("~/Developer/users/jose.valle/sandbox/nvim-theme-daemon.sh start &")
-    print("Theme daemon started")
-  end, { desc = "Start background theme monitoring daemon" })
-  
-  -- Command to stop the background daemon
-  vim.api.nvim_create_user_command("ThemeDaemonStop", function()
-    vim.fn.system("~/Developer/users/jose.valle/sandbox/nvim-theme-daemon.sh stop")
-    print("Theme daemon stopped")
-  end, { desc = "Stop background theme monitoring daemon" })
-  
-  -- Command to check daemon status
-  vim.api.nvim_create_user_command("ThemeDaemonStatus", function()
-    local output = vim.fn.system("~/Developer/users/jose.valle/sandbox/nvim-theme-daemon.sh status")
-    print(output)
-  end, { desc = "Check theme daemon status" })
+    sync_theme_state()
+    last_applied = nil
+    M.apply(resolve_theme(read_theme_state()))
+    local theme = resolve_theme(read_theme_state())
+    print(
+      string.format(
+        "Theme synced: %s / %s (%s)",
+        theme.family or "catppuccin",
+        theme.p10k or "?",
+        theme.appearance or "?"
+      )
+    )
+  end, { desc = "Sync theme from ~/.config/theme/manifest.toml" })
 end
 
--- Function to manually set theme
-function M.set_theme(theme)
-  if theme == "dark" or theme == "mocha" then
-    set_theme_for_appearance("dark")
-  elseif theme == "light" or theme == "latte" then
-    set_theme_for_appearance("light")
-  else
-    print("Unknown theme: " .. theme .. ". Use 'dark', 'mocha', 'light', or 'latte'")
+function M.set_theme(name)
+  local map = {
+    dark = "dark",
+    mocha = "dark",
+    light = "light",
+    latte = "light",
+  }
+  local appearance = map[name]
+  if not appearance then
+    print("Unknown theme: " .. name .. ". Use dark, mocha, light, or latte")
+    return
   end
+
+  local theme = resolve_theme(read_theme_state())
+  theme.appearance = appearance
+  theme.background = appearance
+  if appearance == "dark" then
+    theme.colorscheme = "catppuccin-mocha"
+    theme.p10k = "mocha"
+  else
+    theme.colorscheme = "catppuccin-latte"
+    theme.p10k = "latte"
+  end
+
+  last_applied = nil
+  M.apply(theme)
 end
 
 return M

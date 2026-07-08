@@ -2,23 +2,16 @@
 # zmodload zsh/zprof
 
 export XDG_CONFIG_HOME=$HOME/.config
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$XDG_CONFIG_HOME/theme/bin:$PATH"
 
-# Catppuccin flavour from cache (before instant prompt — omz custom loads later)
-typeset -g _catppuccin_flavour_cache="${XDG_CACHE_HOME:-$HOME/.cache}/catppuccin-flavour"
-if [[ -r $_catppuccin_flavour_cache ]]; then
-  export P10K_CATPPUCCIN_FLAVOUR=$(<$_catppuccin_flavour_cache)
-elif [[ "$(uname)" == Darwin ]]; then
-  if defaults read -g AppleInterfaceStyle &>/dev/null 2>&1; then
-    export P10K_CATPPUCCIN_FLAVOUR=mocha
-  else
-    export P10K_CATPPUCCIN_FLAVOUR=latte
-  fi
-  mkdir -p "${_catppuccin_flavour_cache:h}"
-  print -r -- "$P10K_CATPPUCCIN_FLAVOUR" >| "$_catppuccin_flavour_cache"
-else
-  export P10K_CATPPUCCIN_FLAVOUR=mocha
+# Central theme manifest: ~/.config/theme/manifest.toml
+if [[ -x "${XDG_CONFIG_HOME}/theme/bin/theme-sync" ]]; then
+  "${XDG_CONFIG_HOME}/theme/bin/theme-sync" --quiet 2>/dev/null || true
 fi
+if [[ -r "${XDG_STATE_HOME:-$HOME/.local/state}/theme/current.env" ]]; then
+  source "${XDG_STATE_HOME:-$HOME/.local/state}/theme/current.env"
+fi
+export P10K_CATPPUCCIN_FLAVOUR="${THEME_P10K:-mocha}"
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -189,9 +182,11 @@ alias ls="eza --icons=always"
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
 
-# Catppuccin p10k — flavour cached above; refresh zstyle before p10k loads
-zstyle ':catppuccin:p10k' theme rainbow
-zstyle ':catppuccin:p10k' flavour ${P10K_CATPPUCCIN_FLAVOUR:-mocha}
+# p10k flavour from central theme manifest (Catppuccin families only)
+if [[ "${THEME_P10K_STYLE:-catppuccin}" == "catppuccin" ]]; then
+  zstyle ':catppuccin:p10k' theme rainbow
+  zstyle ':catppuccin:p10k' flavour ${THEME_P10K:-mocha}
+fi
 
 # Keep this at the end of the file
 source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
@@ -202,6 +197,6 @@ else
   [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 fi
 
-catppuccin_p10k_enable_sync
+theme_p10k_enable_sync
 # # uncomment for timing testing (and one at the top too)
 # zprof

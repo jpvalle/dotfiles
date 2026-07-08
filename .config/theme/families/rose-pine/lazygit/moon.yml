@@ -1,0 +1,30 @@
+# Rosé Pine Moon — https://github.com/rose-pine/palette
+theme:
+  activeBorderColor:
+    - '#9ccfd8'
+    - bold
+  inactiveBorderColor:
+    - '#6e6a86'
+  searchingActiveBorderColor:
+    - '#f6c177'
+  optionsTextColor:
+    - '#9ccfd8'
+  selectedLineBgColor:
+    - '#2a273f'
+  inactiveViewSelectedLineBgColor:
+    - '#6e6a86'
+  cherryPickedCommitFgColor:
+    - '#9ccfd8'
+  cherryPickedCommitBgColor:
+    - '#393552'
+  markedBaseCommitFgColor:
+    - '#9ccfd8'
+  markedBaseCommitBgColor:
+    - '#f6c177'
+  unstagedChangesColor:
+    - '#eb6f92'
+  defaultFgColor:
+    - '#e0def4'
+
+authorColors:
+  '*': '#c4a7e7'

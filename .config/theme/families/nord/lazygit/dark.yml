@@ -1,0 +1,30 @@
+# Nord — https://github.com/nordtheme/nord
+theme:
+  activeBorderColor:
+    - '#81a1c1'
+    - bold
+  inactiveBorderColor:
+    - '#4c566a'
+  searchingActiveBorderColor:
+    - '#ebcb8b'
+  optionsTextColor:
+    - '#81a1c1'
+  selectedLineBgColor:
+    - '#3b4252'
+  inactiveViewSelectedLineBgColor:
+    - '#4c566a'
+  cherryPickedCommitFgColor:
+    - '#81a1c1'
+  cherryPickedCommitBgColor:
+    - '#434c5e'
+  markedBaseCommitFgColor:
+    - '#81a1c1'
+  markedBaseCommitBgColor:
+    - '#ebcb8b'
+  unstagedChangesColor:
+    - '#bf616a'
+  defaultFgColor:
+    - '#eceff4'
+
+authorColors:
+  '*': '#b48ead'

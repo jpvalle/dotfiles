@@ -1,0 +1,30 @@
+# Tokyo Night — https://github.com/folke/tokyonight.nvim
+theme:
+  activeBorderColor:
+    - '#7aa2f7'
+    - bold
+  inactiveBorderColor:
+    - '#565f89'
+  searchingActiveBorderColor:
+    - '#e0af68'
+  optionsTextColor:
+    - '#7aa2f7'
+  selectedLineBgColor:
+    - '#292e42'
+  inactiveViewSelectedLineBgColor:
+    - '#545c7e'
+  cherryPickedCommitFgColor:
+    - '#7aa2f7'
+  cherryPickedCommitBgColor:
+    - '#414868'
+  markedBaseCommitFgColor:
+    - '#7aa2f7'
+  markedBaseCommitBgColor:
+    - '#e0af68'
+  unstagedChangesColor:
+    - '#f7768e'
+  defaultFgColor:
+    - '#a9b1d6'
+
+authorColors:
+  '*': '#bb9af7'

@@ -1,0 +1,30 @@
+# Rosé Pine Dawn — https://github.com/rose-pine/palette
+theme:
+  activeBorderColor:
+    - '#286983'
+    - bold
+  inactiveBorderColor:
+    - '#9893a5'
+  searchingActiveBorderColor:
+    - '#ea9d34'
+  optionsTextColor:
+    - '#286983'
+  selectedLineBgColor:
+    - '#f2e9e1'
+  inactiveViewSelectedLineBgColor:
+    - '#9893a5'
+  cherryPickedCommitFgColor:
+    - '#286983'
+  cherryPickedCommitBgColor:
+    - '#dfdad9'
+  markedBaseCommitFgColor:
+    - '#286983'
+  markedBaseCommitBgColor:
+    - '#ea9d34'
+  unstagedChangesColor:
+    - '#b4637a'
+  defaultFgColor:
+    - '#464261'
+
+authorColors:
+  '*': '#907aa9'

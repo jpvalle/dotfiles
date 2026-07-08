@@ -1,5 +1,5 @@
 # Catppuccin Powerlevel10k — https://github.com/tolkonepiu/catppuccin-powerlevel10k-themes
-# Flavour: zstyle ':catppuccin:p10k' (set in ~/.config/zsh/custom/catppuccin-p10k.zsh)
+# Flavour: zstyle ':catppuccin:p10k' (set via ~/.config/theme/manifest.toml)
 
 () {
   local _plugin="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/catppuccin-powerlevel10k-themes/catppuccin-powerlevel10k-themes.plugin.zsh"

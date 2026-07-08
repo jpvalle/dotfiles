@@ -1,0 +1,30 @@
+# Gruvbox Light — https://github.com/morhetz/gruvbox
+theme:
+  activeBorderColor:
+    - '#076678'
+    - bold
+  inactiveBorderColor:
+    - '#928374'
+  searchingActiveBorderColor:
+    - '#b57614'
+  optionsTextColor:
+    - '#076678'
+  selectedLineBgColor:
+    - '#ebdbb2'
+  inactiveViewSelectedLineBgColor:
+    - '#bdae93'
+  cherryPickedCommitFgColor:
+    - '#076678'
+  cherryPickedCommitBgColor:
+    - '#d5c4a1'
+  markedBaseCommitFgColor:
+    - '#076678'
+  markedBaseCommitBgColor:
+    - '#b57614'
+  unstagedChangesColor:
+    - '#9d0006'
+  defaultFgColor:
+    - '#3c3836'
+
+authorColors:
+  '*': '#8f3f71'

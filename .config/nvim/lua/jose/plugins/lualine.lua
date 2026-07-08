@@ -1,6 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
+	dependencies = { "catppuccin/nvim", "nvim-tree/nvim-web-devicons" },
 	config = function()
 		local lualine_require = require("lualine_require")
 		lualine_require.require = require
@@ -9,6 +9,14 @@ return {
 
 		local lualine = require("lualine")
 		local lazy_status = require("lazy.status") -- to configure lazy pending updates count
+
+		local function ctp_fg(name)
+			return function()
+				local flavour = require("catppuccin").flavour
+					or (vim.o.background == "light" and "latte" or "mocha")
+				return { fg = require("catppuccin.palettes").get_palette(flavour)[name] }
+			end
+		end
 
 		-- Custom components for DTEX development
 		local function python_venv()
@@ -85,9 +93,20 @@ return {
 			return ""
 		end
 
+		local function lualine_theme()
+			local path = vim.fn.expand("~/.local/state/theme/current.json")
+			if vim.fn.filereadable(path) == 1 then
+				local ok, state = pcall(vim.fn.json_decode, vim.fn.readfile(path))
+				if ok and type(state) == "table" and state.family == "catppuccin" then
+					return "catppuccin-nvim"
+				end
+			end
+			return "auto"
+		end
+
 		lualine.setup({
 			options = {
-				theme = "auto",
+				theme = lualine_theme(),
 				globalstatus = vim.o.laststatus == 3,
 				disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
 				component_separators = { left = "", right = "" },
@@ -97,12 +116,12 @@ return {
 				lualine_a = { 
 					{ "mode", fmt = function(str) return str:sub(1,1) end } -- Shorter mode display
 				},
-				lualine_b = { 
+				lualine_b = {
 					"branch",
 					{
 						git_status,
-						color = { fg = "#98be65" },
-					}
+						color = ctp_fg("teal"),
+					},
 				},
 				lualine_c = { 
 					{
@@ -116,26 +135,26 @@ return {
 					},
 					{
 						python_venv,
-						color = { fg = "#51afef" },
+						color = ctp_fg("sapphire"),
 					},
 					{
 						session_name,
-						color = { fg = "#c678dd" },
-					}
+						color = ctp_fg("mauve"),
+					},
 				},
 				lualine_x = {
 					{
 						lsp_status,
-						color = { fg = "#98be65" },
+						color = ctp_fg("green"),
 					},
 					{
 						diagnostics_count,
-						color = { fg = "#ff6c6b" },
+						color = ctp_fg("red"),
 					},
 					{
 						lazy_status.updates,
 						cond = lazy_status.has_updates,
-						color = { fg = "#ecbe7b" },
+						color = ctp_fg("yellow"),
 					},
 					{ "encoding", fmt = string.upper },
 					{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
@@ -149,7 +168,7 @@ return {
 						function()
 							return " " .. os.date("%H:%M")
 						end,
-						color = { fg = "#51afef" },
+						color = ctp_fg("blue"),
 					},
 				},
 			},

@@ -1,0 +1,126 @@
+# Central theme configuration
+#
+# Switch themes:
+#   1. Set `family` below to the theme name (e.g. family = "tokyonight")
+#   2. Run `theme-sync` (or open a new shell / :ThemeSync in nvim)
+#
+# Only one [families.*] block should be active at a time in practice — the block
+# matching `family` must exist uncommented. Other families stay commented as templates.
+#
+# mode:
+#   system — follow macOS light/dark (Linux defaults to dark)
+#   dark   — force dark variant
+#   light  — force light variant
+
+family = "catppuccin"
+mode = "system"
+
+# =============================================================================
+# ACTIVE — Catppuccin
+# =============================================================================
+
+[families.catppuccin]
+tmux_style = "catppuccin"
+p10k_style = "catppuccin"
+ghostty = { dark = "Catppuccin Mocha", light = "Catppuccin Latte" }
+nvim = { dark = "catppuccin-mocha", light = "catppuccin-latte" }
+nvim_background = { dark = "dark", light = "light" }
+tmux = { dark = "mocha", light = "latte" }
+bat = { dark = "Catppuccin Mocha", light = "Catppuccin Latte" }
+p10k = { dark = "mocha", light = "latte" }
+delta = { dark = "catppuccin-mocha", light = "catppuccin-latte" }
+lazygit = { dark = "mocha", light = "latte" }
+wezterm = { dark = "Catppuccin Mocha", light = "Catppuccin Latte" }
+
+# =============================================================================
+# Tokyo Night — set family = "tokyonight" and comment [families.catppuccin] above
+# Requires: folke/tokyonight.nvim (already in nvim colors/)
+# =============================================================================
+
+# [families.tokyonight]
+# tmux_style = "file"
+# p10k_style = "none"
+# ghostty = { dark = "TokyoNight", light = "TokyoNight Day" }
+# nvim = { dark = "tokyonight-night", light = "tokyonight-day" }
+# nvim_background = { dark = "dark", light = "light" }
+# tmux = { dark = "dark", light = "light" }
+# bat = { dark = "tokyonight_night", light = "gruvbox-light" }
+# p10k = { dark = "none", light = "none" }
+# delta = { dark = "tokyonight_night", light = "gruvbox-light" }
+# lazygit = { dark = "night", light = "day" }
+# wezterm = { dark = "Tokyo Night", light = "Tokyo Night Day" }
+
+# =============================================================================
+# Gruvbox — set family = "gruvbox"
+# Requires: ellisonleao/gruvbox.nvim (nvim colors/gruvbox.lua)
+# =============================================================================
+
+# [families.gruvbox]
+# tmux_style = "file"
+# p10k_style = "none"
+# ghostty = { dark = "Gruvbox Dark Hard", light = "Gruvbox Light Hard" }
+# nvim = { dark = "gruvbox", light = "gruvbox" }
+# nvim_background = { dark = "dark", light = "light" }
+# tmux = { dark = "dark", light = "light" }
+# bat = { dark = "gruvbox-dark", light = "gruvbox-light" }
+# p10k = { dark = "none", light = "none" }
+# delta = { dark = "gruvbox-dark", light = "gruvbox-light" }
+# lazygit = { dark = "dark", light = "light" }
+# wezterm = { dark = "Gruvbox Dark Hard", light = "Gruvbox Light Hard" }
+
+# =============================================================================
+# Nord — set family = "nord"
+# Requires: arcticicestudio/nord-vim + shaunsingh/solarized.nvim (light fallback)
+# Nord has no official light nvim theme; light uses Solarized. Delta light uses GitHub.
+# =============================================================================
+
+# [families.nord]
+# tmux_style = "file"
+# p10k_style = "none"
+# ghostty = { dark = "Nord", light = "Nord Light" }
+# nvim = { dark = "nord", light = "solarized" }
+# nvim_background = { dark = "dark", light = "light" }
+# tmux = { dark = "dark", light = "light" }
+# bat = { dark = "Nord", light = "gruvbox-light" }
+# p10k = { dark = "none", light = "none" }
+# delta = { dark = "Nord", light = "GitHub" }
+# lazygit = { dark = "dark", light = "light" }
+# wezterm = { dark = "Nord", light = "Nord Light" }
+
+# =============================================================================
+# Rosé Pine — set family = "rose-pine"
+# Requires: rose-pine/neovim (nvim colors/rose-pine.lua)
+# Delta has no Rosé Pine theme; uses Catppuccin syntax themes as closest bundled match.
+# =============================================================================
+
+# [families.rose-pine]
+# tmux_style = "file"
+# p10k_style = "none"
+# ghostty = { dark = "Rose Pine", light = "Rose Pine Dawn" }
+# nvim = { dark = "rose-pine-moon", light = "rose-pine-dawn" }
+# nvim_background = { dark = "dark", light = "light" }
+# tmux = { dark = "dark", light = "light" }
+# bat = { dark = "Dracula", light = "gruvbox-light" }
+# p10k = { dark = "none", light = "none" }
+# delta = { dark = "Catppuccin Mocha", light = "Catppuccin Latte" }
+# lazygit = { dark = "moon", light = "dawn" }
+# wezterm = { dark = "Rose Pine", light = "Rose Pine Dawn" }
+
+# =============================================================================
+# Dracula — set family = "dracula"
+# Requires: dracula/vim (nvim colors/dracula.lua)
+# Dracula is dark-only; light mode uses Gruvbox Light across terminal tools.
+# =============================================================================
+
+# [families.dracula]
+# tmux_style = "file"
+# p10k_style = "none"
+# ghostty = { dark = "Dracula", light = "Gruvbox Light Hard" }
+# nvim = { dark = "dracula", light = "gruvbox" }
+# nvim_background = { dark = "dark", light = "light" }
+# tmux = { dark = "dark", light = "light" }
+# bat = { dark = "Dracula", light = "gruvbox-light" }
+# p10k = { dark = "none", light = "none" }
+# delta = { dark = "Dracula", light = "gruvbox-light" }
+# lazygit = { dark = "dark", light = "light" }
+# wezterm = { dark = "Dracula", light = "Gruvbox Light Hard" }

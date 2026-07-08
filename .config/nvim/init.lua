@@ -20,8 +20,6 @@ require("jose.core.nvim-server").setup()
 require("jose.core") -- ~/.config/nvim/lua/jose/core/init.lua
 require("jose.lazy") -- ~/.config/nvim/lua/jose/lazy.lua
 
--- Setup automatic theme switching based on macOS appearance
+-- Setup automatic theme switching from ~/.config/theme/manifest.toml
 require("jose.core.auto-theme").setup()
--- Manual theme switching is now handled by auto-theme module
--- Use :ThemeSync command to manually sync with macOS appearance
--- Or call require("jose.core.auto-theme").set_theme("dark") or .set_theme("light")
+-- Use :ThemeSync to manually sync with the central theme manifest

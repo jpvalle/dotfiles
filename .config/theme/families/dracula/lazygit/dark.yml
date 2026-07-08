@@ -1,0 +1,30 @@
+# Dracula — https://github.com/dracula/dracula-theme
+theme:
+  activeBorderColor:
+    - '#8be9fd'
+    - bold
+  inactiveBorderColor:
+    - '#6272a4'
+  searchingActiveBorderColor:
+    - '#f1fa8c'
+  optionsTextColor:
+    - '#8be9fd'
+  selectedLineBgColor:
+    - '#44475a'
+  inactiveViewSelectedLineBgColor:
+    - '#6272a4'
+  cherryPickedCommitFgColor:
+    - '#8be9fd'
+  cherryPickedCommitBgColor:
+    - '#44475a'
+  markedBaseCommitFgColor:
+    - '#8be9fd'
+  markedBaseCommitBgColor:
+    - '#f1fa8c'
+  unstagedChangesColor:
+    - '#ff5555'
+  defaultFgColor:
+    - '#f8f8f2'
+
+authorColors:
+  '*': '#bd93f9'

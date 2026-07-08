@@ -1,0 +1,30 @@
+# Nord Light — https://github.com/nordtheme/nord
+theme:
+  activeBorderColor:
+    - '#5e81ac'
+    - bold
+  inactiveBorderColor:
+    - '#4c566a'
+  searchingActiveBorderColor:
+    - '#ebcb8b'
+  optionsTextColor:
+    - '#5e81ac'
+  selectedLineBgColor:
+    - '#e5e9f0'
+  inactiveViewSelectedLineBgColor:
+    - '#d8dee9'
+  cherryPickedCommitFgColor:
+    - '#5e81ac'
+  cherryPickedCommitBgColor:
+    - '#d8dee9'
+  markedBaseCommitFgColor:
+    - '#5e81ac'
+  markedBaseCommitBgColor:
+    - '#ebcb8b'
+  unstagedChangesColor:
+    - '#bf616a'
+  defaultFgColor:
+    - '#2e3440'
+
+authorColors:
+  '*': '#b48ead'
