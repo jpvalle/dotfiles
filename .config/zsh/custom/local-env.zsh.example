@@ -1,0 +1,18 @@
+# Copy to local-env.zsh (gitignored) for machine-specific env vars.
+# Oh My Zsh auto-sources $ZSH_CUSTOM/*.zsh during startup.
+
+# --- Example: Vulkan SDK for llama.cpp (macOS) ---
+# export VULKAN_SDK="$HOME/VulkanSDK/1.4.350.1/macOS"
+# export VK_ICD_FILENAMES="$VULKAN_SDK/share/vulkan/icd.d/MoltenVK_icd.json"
+# export VK_LAYER_PATH="$VULKAN_SDK/share/vulkan/explicit_layer.d"
+# if [[ -z "$DYLD_LIBRARY_PATH" ]]; then
+#   export DYLD_LIBRARY_PATH="$VULKAN_SDK/lib"
+# else
+#   export DYLD_LIBRARY_PATH="$VULKAN_SDK/lib:$DYLD_LIBRARY_PATH"
+# fi
+
+# --- Example: remote Ollama on another host ---
+# export OLLAMA_HOST="http://windows-pc:11434"
+
+# --- Example: local toolchains ---
+# export PATH="$HOME/.local/xonsh-env/xbin:$PATH"

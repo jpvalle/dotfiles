@@ -1,0 +1,8 @@
+# Copy to ~/.config/git/local (gitignored) for machine-specific git settings.
+#
+# [user]
+#   name = Your Name
+#   email = you@example.com
+#
+# [includeIf "gitdir:~/Developer/DTEXSERVER/"]
+#   path = ~/.gitconfig-dtex

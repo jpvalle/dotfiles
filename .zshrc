@@ -20,23 +20,21 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Necessary for homebrew to work
-if [[ -f /usr/local/bin/brew ]]; then
-    # Personal mac specific config
-    export PATH=$HOME/.local/xonsh-env/xbin:$PATH
-    export OLLAMA_HOST="http://windows-pc:11434"
-    eval "$(/usr/local/bin/brew shellenv zsh)"
-elif [[ -d /home/linuxbrew/.linuxbrew/ ]]; then
-    # Linux config
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
-elif [[ -d /opt/homebrew/ ]]; then
-    # Work Laptop Config
-    export PATH=/Users/jose.valle/Developer/DTEXSERVER/dch-tools/.venv/bin:$PATH
+# Homebrew (macOS only): Apple Silicon (/opt/homebrew) or Intel (/usr/local)
+if [[ "$(uname)" == Darwin ]]; then
+  if [[ -x /opt/homebrew/bin/brew ]]; then
     eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv zsh)"
+  fi
 fi
 
-# Necessary for fzf
-export FZF_BASE=$HOMEBREW_PREFIX/bin/fzf
+# fzf (oh-my-zsh plugin): Homebrew on macOS, distro packages on Linux
+if [[ -n "${HOMEBREW_PREFIX:-}" && -d "${HOMEBREW_PREFIX}/opt/fzf" ]]; then
+  export FZF_BASE="${HOMEBREW_PREFIX}/opt/fzf"
+elif [[ -d /usr/share/fzf ]]; then
+  export FZF_BASE=/usr/share/fzf
+fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
@@ -45,19 +43,6 @@ export FZF_BASE=$HOMEBREW_PREFIX/bin/fzf
 export ZSH="$HOME/.oh-my-zsh"
 # Custom scripts/plugins live outside ~/.oh-my-zsh so `omz update` keeps working
 export ZSH_CUSTOM="${XDG_CONFIG_HOME}/zsh/custom"
-
-# ==========================================
-# VULKAN SDK ENVIRONMENT FOR LLAMA.CPP
-# ==========================================
-export VULKAN_SDK="$HOME/VulkanSDK/1.4.350.1/macOS"
-export VK_ICD_FILENAMES="$VULKAN_SDK/share/vulkan/icd.d/MoltenVK_icd.json"
-export VK_LAYER_PATH="$VULKAN_SDK/share/vulkan/explicit_layer.d"
-# Use an explicit check on DYLD to prevent system profile warnings
-if [[ -z "$DYLD_LIBRARY_PATH" ]]; then
-    export DYLD_LIBRARY_PATH="$VULKAN_SDK/lib"
-else
-    export DYLD_LIBRARY_PATH="$VULKAN_SDK/lib:$DYLD_LIBRARY_PATH"
-fi
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
@@ -188,13 +173,21 @@ if [[ "${THEME_P10K_STYLE:-catppuccin}" == "catppuccin" ]]; then
   zstyle ':catppuccin:p10k' flavour ${THEME_P10K:-mocha}
 fi
 
-# Keep this at the end of the file
-source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
+# Powerlevel10k: Homebrew on macOS, distro or local install on Linux
+typeset -g _P10K_THEME_FILE=
+if [[ -n "${HOMEBREW_PREFIX:-}" && -r "${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+  _P10K_THEME_FILE="${HOMEBREW_PREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme"
+elif [[ -r /usr/share/powerlevel10k/powerlevel10k.zsh-theme ]]; then
+  _P10K_THEME_FILE=/usr/share/powerlevel10k/powerlevel10k.zsh-theme
+elif [[ -r "${XDG_DATA_HOME:-$HOME/.local/share}/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+  _P10K_THEME_FILE="${XDG_DATA_HOME:-$HOME/.local/share}/powerlevel10k/powerlevel10k.zsh-theme"
+fi
+[[ -n $_P10K_THEME_FILE ]] && source "$_P10K_THEME_FILE"
+unset _P10K_THEME_FILE
 
-if [[ "$(uname)" == Linux ]]; then
-  [[ ! -f ~/.p10k.remote.zsh ]] || source ~/.p10k.remote.zsh
-else
-  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# p10k config: same Catppuccin setup on macOS and Linux; work machines may use ~/.p10k.work.zsh locally
+if [[ -r ~/.p10k.zsh ]]; then
+  source ~/.p10k.zsh
 fi
 
 theme_p10k_enable_sync

@@ -6,8 +6,8 @@
   local _flavour
 
   [[ -f $_plugin ]] || {
-    echo "p10k: missing catppuccin-powerlevel10k-themes (run: git submodule update --init)" >&2
-    return 1
+    echo "p10k: missing catppuccin-powerlevel10k-themes (run: ./bootstrap or git submodule update --init)" >&2
+    return 0
   }
 
   zstyle -s ':catppuccin:p10k' flavour _flavour 2>/dev/null || _flavour=${P10K_CATPPUCCIN_FLAVOUR:-mocha}

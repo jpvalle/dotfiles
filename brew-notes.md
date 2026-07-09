@@ -26,7 +26,7 @@ brew bundle dump --force --file=~/dotfiles/Brewfile --describe
 
 --force overwrites the existing file. --describe adds one-line comments, which makes the list useful as documentation even if you never auto-install.
 
-You already have Homebrew wired up in .zshrc for macOS and Linux; a top-level Brewfile in the repo fits that setup well.
+You already have Homebrew wired up in .zshrc on macOS only; a top-level Brewfile in the repo fits that setup well.
 
 ────────────────────────────────────────
 
@@ -59,7 +59,7 @@ Cross-platform notes
 │ Windows  │ WSL only  │ Native Windows uses winget, scoop, or chocolatey — separate lists │
 └──────────┴───────────┴───────────────────────────────────────────────────────────────────┘
 
-On Linux, brew bundle install (if you ever use it) will skip casks. Keeping one Brewfile is fine: casks are ignored on Linux.
+On Linux, use apt/dnf instead of Homebrew; the Brewfile is macOS-only.
 
 For native Windows, maintain something like windows-packages.txt from winget export or a Scoop bucket list — separate from Homebrew.
 

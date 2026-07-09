@@ -1,11 +1,85 @@
-- Need to install `stow`, [article about it](https://www.josean.com/posts/how-to-manage-dotfiles-with-gnu-stow).
-- After clone: `git submodule update --init --recursive` (catppuccin-powerlevel10k-themes for p10k)
-- Run `git config --local user.email "ID+username@users.noreply.github.com"` to push commits
-- Install homebrew: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
-- Install with brew: `brew install gcc powerlevel10k zoxide eza fzf neovim lazygit`  
-- Install oh-my-zsh `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
-- Autosuggestions: `git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.config/zsh/custom/plugins/zsh-autosuggestions`
-- Syntax Highlighting: `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.config/zsh/custom/plugins/zsh-syntax-highlighting`
+# Dotfiles bootstrap
+
+Portable setup: clone anywhere, `stow` into `$HOME`, no hardcoded repo paths in config.
+
+## Fresh machine
+
+```bash
+git clone --recurse-submodules <your-repo-url> /path/to/dotfiles
+cd /path/to/dotfiles
+git submodule update --init --recursive   # if cloned without --recurse-submodules
+stow -v -R -t "$HOME" --adopt .
+./bin/bootstrap                           # optional: same as above + theme-sync + local templates
+```
+
+To remove symlinks when leaving a machine:
+
+```bash
+cd /path/to/dotfiles
+stow -v -D -t "$HOME" .
+```
+
+## Dependencies
+
+### macOS (Homebrew)
+
+Homebrew location is detected automatically: `/opt/homebrew` (Apple Silicon) or `/usr/local` (Intel).
+
+```bash
+brew bundle install --file=/path/to/dotfiles/Brewfile
+```
+
+Key packages: `stow`, `powerlevel10k`, `zoxide`, `eza`, `fzf`, `neovim`, `lazygit`, `git-delta`, `tmux`.
+
+### Linux (apt, dnf, etc.)
+
+No Homebrew on Linux — install the same tools with your distro package manager. Package names vary; examples:
+
+```bash
+# Debian/Ubuntu
+sudo apt install stow zsh fzf neovim tmux git-delta
+
+# Fedora
+sudo dnf install stow zsh fzf neovim tmux git-delta
+```
+
+Also install via your distro or upstream when not packaged: `zoxide`, `eza`, `lazygit`, `powerlevel10k` (or place powerlevel10k under `~/.local/share/powerlevel10k/`). Zsh plugins come from git submodules in this repo — no extra install step.
+
+## Oh My Zsh
+
+Install once (keeps your stowed `~/.zshrc`):
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
+```
+
+## Git submodules
+
+All zsh plugins are submodules — no manual `git clone` needed:
+
+| Submodule | Purpose |
+|-----------|---------|
+| `catppuccin-powerlevel10k-themes` | Catppuccin p10k colours |
+| `zsh-autosuggestions` | Fish-like suggestions |
+| `zsh-syntax-highlighting` | Command highlighting |
+
+After `git pull`:
+
+```bash
+git submodule update --init --recursive
+```
+
+If `git submodule update --init` fails on an old clone, run `git submodule sync --recursive` first.
+
+## Machine-local files (gitignored)
+
+| File | Purpose |
+|------|---------|
+| `.config/zsh/custom/local-env.zsh` | Personal PATH, Vulkan, Ollama, etc. (see `local-env.zsh.example`) |
+| `.config/zsh/custom/work-env.zsh` | Work PATH (DTEX venv, etc.) |
+| `.config/zsh/custom/aliases-work.zsh` | Work directory shortcuts |
+| `~/.config/git/local` | Git name/email, work `includeIf` (see `local.example`) |
+| `.work.zshrc`, `.p10k.work.zsh` | Alternate work shell config (not shared) |
 
 ## Theme (single source of truth)
 
@@ -28,3 +102,10 @@ Bundled alternate families (commented templates in the manifest):
 Catppuccin is the only family that syncs Powerlevel10k catppuccin flavours. Other families keep your existing p10k config as-is.
 
 After changing the manifest: `theme-sync`. Reload tmux with `prefix + r` if needed. Reopen LazyGit to pick up palette changes.
+
+## Git identity
+
+```bash
+cp .config/git/local.example ~/.config/git/local   # edit name/email
+git config --local user.email "ID+username@users.noreply.github.com"   # commits in this repo
+```

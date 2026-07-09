@@ -9,8 +9,6 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
-[commit]
-	template = /Users/jose.valle/.stCommitMsg
 [init]
 	defaultBranch = main
 [pull]
@@ -61,8 +59,7 @@
 [remote]
 	pushDefault = origin
 
-[includeIf "gitdir:~/dotfiles/"]
-  path = .gitconfig-personal
-
-[includeIf "gitdir:~/"]
-  path = .gitconfig-dtex
+# Machine-local identity and work includes (see ~/.config/git/local.example)
+[include]
+	path = ~/.config/git/local
+	optional = true

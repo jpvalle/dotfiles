@@ -6,7 +6,12 @@
 # Machine-local zsh custom (not committed)
 .config/zsh/custom/work-env.zsh
 .config/zsh/custom/aliases-work.zsh
+.config/zsh/custom/local-env.zsh
 
-# Cloned locally; install per README
-.config/zsh/custom/plugins/zsh-autosuggestions/
-.config/zsh/custom/plugins/zsh-syntax-highlighting/
+# Work-machine alternates (keep locally, not in dotfiles)
+.work.zshrc
+.p10k.work.zsh
+.p10k.remote.zsh
+
+# Machine-local git identity / includes
+.config/git/local

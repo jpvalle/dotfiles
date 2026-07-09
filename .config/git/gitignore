@@ -1,0 +1,6 @@
+# Global gitignore (referenced from ~/.gitconfig)
+.DS_Store
+*.swp
+*~
+.idea/
+.vscode/

@@ -28,7 +28,6 @@ theme_p10k_sync() {
 }
 
 _p10k_theme_precmd() {
-  [[ "$(uname)" != Darwin ]] && return
   (( EPOCHSECONDS - _THEME_SYNC_LAST < 2 )) && return
   _THEME_SYNC_LAST=$EPOCHSECONDS
 
