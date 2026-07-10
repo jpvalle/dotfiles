@@ -19,6 +19,6 @@ return {
     vim.keymap.set('n', '<leader>gcb', '<Plug>(git-conflict-both)', { desc = 'Choose Both' })
     vim.keymap.set('n', '<leader>gc0', '<Plug>(git-conflict-none)', { desc = 'Choose None' })
     vim.keymap.set('n', '<leader>gcn', '<Plug>(git-conflict-next-conflict)', { desc = 'Next Conflict' })
-    vim.keymap.set('n', '<leader>gcp', '<Plug>(git-conflict-prev-conflict)', { desc = 'Previous Conflict' })
+    vim.keymap.set('n', '<leader>gcP', '<Plug>(git-conflict-prev-conflict)', { desc = 'Previous Conflict' })
   end,
 }

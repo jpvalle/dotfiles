@@ -33,12 +33,18 @@ return {
 				local added = git_status.added or 0
 				local modified = git_status.changed or 0
 				local removed = git_status.removed or 0
-				
+
 				local result = {}
-				if added > 0 then table.insert(result, "+" .. added) end
-				if modified > 0 then table.insert(result, "~" .. modified) end
-				if removed > 0 then table.insert(result, "-" .. removed) end
-				
+				if added > 0 then
+					table.insert(result, "+" .. added)
+				end
+				if modified > 0 then
+					table.insert(result, "~" .. modified)
+				end
+				if removed > 0 then
+					table.insert(result, "-" .. removed)
+				end
+
 				return table.concat(result, " ")
 			end
 			return ""

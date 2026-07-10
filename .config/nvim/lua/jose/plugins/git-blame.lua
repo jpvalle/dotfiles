@@ -7,9 +7,7 @@ return {
     -- If you want to load the plugin at startup, add something like event = "VeryLazy",
     -- or lazy = false. One of both options will work.
     opts = {
-        -- your configuration comes here
-        -- for example
-        enabled = true,  -- if you want to enable the plugin
+        enabled = false, -- use gitsigns current_line_blame instead (see gitsigns.lua)
         -- message_template = " <date> • <author> • <summary> • <<sha>>", -- template for the blame message, check the Message template section for more options
         message_template = " <date> • <author> • <summary>", -- template for the blame message, check the Message template section for more options
         -- date_format = "%m-%d-%Y %H:%M:%S", -- template for the date, check Date format section for more options

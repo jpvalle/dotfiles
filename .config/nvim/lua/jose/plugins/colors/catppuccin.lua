@@ -23,6 +23,7 @@ return {
 		require("catppuccin").setup({
 			background = { light = "latte", dark = "mocha" },
 			integrations = {
+				gitsigns = true,
 				lualine = {},
 			},
 			styles = {

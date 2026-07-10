@@ -10,12 +10,12 @@ return {
       use_local_fs = false,                    -- use local files on right side of reviews
       enable_builtin = false,                  -- shows a list of builtin actions when no action is provided
       default_remote = {"upstream", "origin"}; -- order to try remotes
-      default_merge_method = "commit",         -- default merge method which should be used when calling `Octo pr merge`, could be `commit`, `rebase` or `squash`
+      default_merge_method = "merge",         -- merge, rebase, or squash (commit was renamed)
       ssh_aliases = {},                        -- SSH aliases. e.g. `ssh_aliases = {["github.com-work"] = "github.com"}`
       reaction_viewer_hint_icon = "";         -- marker for user reactions
       user_icon = " ";                        -- user icon
       timeline_marker = "";                   -- timeline marker
-      timeline_indent = "2";                   -- timeline indentation
+      timeline_indent = 2,                   -- timeline indentation
       right_bubble_delimiter = "";           -- bubble delimiter
       left_bubble_delimiter = "";            -- bubble delimiter
       github_hostname = "";                    -- GitHub Enterprise host
@@ -40,7 +40,7 @@ return {
       },
       file_panel = {
         size = 10,                             -- changed files panel rows
-        use_icons = true                       -- use web-devicons in file panel
+        icons = true,                          -- web-devicons in file panel
       },
       mappings = {
         issue = {
@@ -159,10 +159,10 @@ return {
   end,
   keys = {
     { "<leader>go", "<cmd>Octo<cr>", desc = "Open Octo" },
-    { "<leader>gpl", "<cmd>Octo pr list<cr>", desc = "List PRs" },
-    { "<leader>gpc", "<cmd>Octo pr create<cr>", desc = "Create PR" },
-    { "<leader>gpr", "<cmd>Octo pr review<cr>", desc = "Review PR" },
-    { "<leader>gil", "<cmd>Octo issue list<cr>", desc = "List Issues" },
-    { "<leader>gic", "<cmd>Octo issue create<cr>", desc = "Create Issue" },
+    { "<leader>opl", "<cmd>Octo pr list<cr>", desc = "List PRs" },
+    { "<leader>opc", "<cmd>Octo pr create<cr>", desc = "Create PR" },
+    { "<leader>opr", "<cmd>Octo pr review<cr>", desc = "Review PR" },
+    { "<leader>oil", "<cmd>Octo issue list<cr>", desc = "List Issues" },
+    { "<leader>oic", "<cmd>Octo issue create<cr>", desc = "Create Issue" },
   },
 }
