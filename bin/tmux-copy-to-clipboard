@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# tmux-yank @override_copy_command: filter prompts, then copy to clipboard.
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "$0")" && pwd)"
+filtered="$("$script_dir/tmux-strip-prompts")"
+
+copy_to_clipboard() {
+  if command -v pbcopy >/dev/null 2>&1; then
+    if command -v reattach-to-user-namespace >/dev/null 2>&1; then
+      printf '%s' "$filtered" | reattach-to-user-namespace pbcopy
+    else
+      printf '%s' "$filtered" | pbcopy
+    fi
+  elif command -v wl-copy >/dev/null 2>&1; then
+    printf '%s' "$filtered" | wl-copy
+  elif command -v xclip >/dev/null 2>&1; then
+    printf '%s' "$filtered" | xclip -selection clipboard
+  elif command -v xsel >/dev/null 2>&1; then
+    printf '%s' "$filtered" | xsel -i --clipboard
+  elif command -v clip.exe >/dev/null 2>&1; then
+    printf '%s' "$filtered" | clip.exe
+  else
+    tmux display-message "tmux-copy-to-clipboard: no clipboard tool found" >&2
+    exit 1
+  fi
+}
+
+copy_to_clipboard

@@ -1,0 +1,70 @@
+#!/usr/bin/env perl
+# Strip p10k prompt lines from tmux copy selections.
+use strict;
+use warnings;
+use utf8;
+
+binmode(STDIN,  ':encoding(UTF-8)');
+binmode(STDOUT, ':encoding(UTF-8)');
+
+my $input = do { local $/; <STDIN> };
+exit 0 if !defined $input || $input eq '';
+
+# Strip terminal styling and OSC sequences.
+$input =~ s/\e\[[0-9:;]*[ -\/]*[@-~]//g;
+$input =~ s/\e\][^\a]*\a//g;
+$input =~ s/\e\][^\e\\]*(?:\e\\)*(?:\e\\|\x07)//g;
+
+my $ps = "\x{200b}\x{2060}";
+my $pe = "\x{2060}\x{200b}";
+
+# Remove prompt bar when both markers landed on the time line.
+$input =~ s/^[^\n]*\Q$ps\E[^\n]*\Q$pe\E[^\n]*\n?//gm;
+
+# Strip invisible sentinels before line heuristics.
+$input =~ s/[\x{200b}\x{200c}\x{2060}\x{feff}]//g;
+
+sub bare_line {
+  my ($line) = @_;
+  $line =~ s/[ \t]+$//;
+  return $line;
+}
+
+sub is_prompt_bar_line {
+  my ($bare) = @_;
+  return 1 if $bare =~ /\A[\s·]*\z/;
+  return 1 if $bare =~ /at\s+.*\d{2}:\d{2}:\d{2}/;
+  return 1 if $bare =~ /~\// && $bare =~ /[·]{4,}/;
+  return 1 if $bare =~ /\bon [\p{L}\p{N}_.\/-]+/ && $bare =~ /[·]{2,}/;
+  return 0;
+}
+
+sub is_prompt_only_line {
+  my ($bare) = @_;
+  return 1 if $bare =~ /\A[❯➜]\s*\z/;
+  return 0;
+}
+
+my @lines = split /\n/, $input, -1;
+my @kept;
+
+for my $line (@lines) {
+  my $bare = bare_line($line);
+
+  next if is_prompt_bar_line($bare);
+  next if is_prompt_only_line($bare);
+
+  if ($bare =~ /\A[❯➜]\s+(.+)\z/) {
+    push @kept, $1;
+    next;
+  }
+
+  push @kept, $bare;
+}
+
+my $output = join "\n", @kept;
+$output =~ s/\n{3,}/\n\n/g;
+$output =~ s/\A\n+//;
+$output =~ s/\n+\z//;
+
+print $output;

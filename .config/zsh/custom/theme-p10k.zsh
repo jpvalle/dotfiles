@@ -15,6 +15,7 @@ theme_p10k_refresh() {
 
   local _p10k=${ZDOTDIR:-$HOME}/.p10k.zsh
   [[ -f $_p10k ]] && source "$_p10k"
+  whence jose_p10k_apply_copy_markers &>/dev/null && jose_p10k_apply_copy_markers
 
   whence zle &>/dev/null && zle -R
 }

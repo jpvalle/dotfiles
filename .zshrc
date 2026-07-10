@@ -191,5 +191,9 @@ if [[ -r ~/.p10k.zsh ]]; then
 fi
 
 theme_p10k_enable_sync
+
+# Tmux copy markers — deferred until first precmd (instant-prompt safe).
+[[ -r "${ZSH_CUSTOM}/shell-integration.zsh" ]] && source "${ZSH_CUSTOM}/shell-integration.zsh"
+
 # # uncomment for timing testing (and one at the top too)
 # zprof
