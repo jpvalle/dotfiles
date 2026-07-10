@@ -1,13 +1,17 @@
 git:
   pagers:
     - colorArg: always
-      pager: delta --paging=never --syntax-theme=none --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+      # --wrap-max-lines overrides global delta "unlimited" (slow on large diffs).
+      pager: delta --paging=never --syntax-theme=none --wrap-max-lines=2 --line-numbers --hyperlinks --hyperlinks-file-link-format=lazygit-edit://{path}:{line}
   commit:
     signOff: false
-  autoFetch: true
+  # autoFetch + fetchAll block startup on network (~2s here); press `f` to fetch manually.
+  autoFetch: false
+  fetchAll: false
   autoRefresh: true
   log:
     order: "topo-order"
+    showGraph: never
   gitLogTimezone: "UTC"
 # Edit: ~/.config/lazygit/bin/edit-from-nvim.sh (parent nvim when reachable, else standalone nvim)
 os:

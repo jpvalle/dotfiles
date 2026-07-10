@@ -63,3 +63,5 @@
 [include]
 	path = ~/.config/git/local
 	optional = true
+[maintenance]
+	repo = /Users/jose.valle/dotfiles

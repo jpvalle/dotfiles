@@ -26,10 +26,30 @@ if [[ -L "$STATE_DIR" && ! -e "$STATE_DIR" ]]; then
 fi
 mkdir -p "$STATE_DIR"
 
+# macOS /usr/bin/python3 is often 3.9 (no tomllib); prefer Homebrew 3.11+.
+theme_sync_python() {
+  local candidates=(python3.14 python3.13 python3.12 python3.11)
+  if [[ -x /opt/homebrew/bin/python3 ]]; then
+    candidates+=(/opt/homebrew/bin/python3)
+  fi
+  candidates+=(python3)
+  local py
+  for py in "${candidates[@]}"; do
+    if command -v "$py" >/dev/null 2>&1 && "$py" -c 'import tomllib' 2>/dev/null; then
+      printf '%s' "$py"
+      return 0
+    fi
+  done
+  echo "theme-sync: need Python 3.11+ (tomllib); install with: brew install python" >&2
+  return 1
+}
+
+THEME_SYNC_PYTHON="$(theme_sync_python)" || exit 1
+
 export THEME_DIR GENERATED_DIR STATE_DIR MANIFEST CONFIG_HOME
 
 sync_exit=0
-python3 <<'PY' || sync_exit=$?
+"$THEME_SYNC_PYTHON" <<'PY' || sync_exit=$?
 import hashlib
 import json
 import os
@@ -236,7 +256,7 @@ if [[ $sync_exit -ne 0 && $sync_exit -ne 10 ]]; then
   exit "$sync_exit"
 fi
 
-appearance="$(python3 -c 'import json, pathlib, os; p=pathlib.Path(os.environ["STATE_DIR"])/"current.json"; print(json.loads(p.read_text())["appearance"])')"
+appearance="$("$THEME_SYNC_PYTHON" -c 'import json, pathlib, os; p=pathlib.Path(os.environ["STATE_DIR"])/"current.json"; print(json.loads(p.read_text())["appearance"])')"
 expected_tmux_theme="$GENERATED_DIR/tmux-${appearance}.conf"
 tmux_theme_link="${XDG_STATE_HOME:-$HOME/.local/state}/tmux/tmux-dark-notify-theme.conf"
 needs_tmux_reload=false
@@ -259,8 +279,8 @@ if $needs_tmux_reload && command -v tmux &>/dev/null && tmux has-session 2>/dev/
 fi
 
 if ! $quiet; then
-  appearance="$(python3 -c 'import json, pathlib, os; p=pathlib.Path(os.environ["STATE_DIR"])/"current.json"; print(json.loads(p.read_text())["appearance"])')"
-  family="$(python3 -c 'import json, pathlib, os; p=pathlib.Path(os.environ["STATE_DIR"])/"current.json"; print(json.loads(p.read_text())["family"])')"
-  variant="$(python3 -c 'import json, pathlib, os; p=pathlib.Path(os.environ["STATE_DIR"])/"current.json"; d=json.loads(p.read_text()); print(d["tools"].get("p10k", d["appearance"]))')"
+  appearance="$("$THEME_SYNC_PYTHON" -c 'import json, pathlib, os; p=pathlib.Path(os.environ["STATE_DIR"])/"current.json"; print(json.loads(p.read_text())["appearance"])')"
+  family="$("$THEME_SYNC_PYTHON" -c 'import json, pathlib, os; p=pathlib.Path(os.environ["STATE_DIR"])/"current.json"; print(json.loads(p.read_text())["family"])')"
+  variant="$("$THEME_SYNC_PYTHON" -c 'import json, pathlib, os; p=pathlib.Path(os.environ["STATE_DIR"])/"current.json"; d=json.loads(p.read_text()); print(d["tools"].get("p10k", d["appearance"]))')"
   echo "theme-sync: ${family} / ${variant} (${appearance})"
 fi
