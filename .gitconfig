@@ -3,6 +3,7 @@
 	excludesFile = ~/.config/git/gitignore
 	editor = nvim
 	pager = delta
+	fsmonitor = true
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
