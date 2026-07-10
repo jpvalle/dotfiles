@@ -19,11 +19,9 @@ function M.setup()
     end
   end
 
-  local server = vim.v.servername
-  if server ~= "" then
-    vim.env.NVIM = server
-    vim.env.NVIM_LISTEN_ADDRESS = server
-  end
+  -- Do not set NVIM / NVIM_LISTEN_ADDRESS here: auto-session skips VimLeavePre
+  -- saves when NVIM is set (nested-client guard). Child processes get the server
+  -- via export_env() before lazygit/git spawn.
 
   if vim.fn.executable("nvr") == 1 then
     vim.env.GIT_EDITOR = "nvr -cc split --remote-wait +'set bufhidden=wipe'"

@@ -1,4 +1,6 @@
-vim.cmd("let g:netrw_liststyle = 3") -- easier navigation with :Explore
+-- File tree: nvim-tree + oil; disable netrw so `nvim .` does not hijack startup.
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 vim.cmd([[autocmd FileType * set formatoptions-=cro]]) -- stop autocommenting next line
 vim.keymap.set("i", "jk", "<ESC>", { noremap = true, desc = "Exit insert mode with jk" })
 vim.opt.termguicolors = true

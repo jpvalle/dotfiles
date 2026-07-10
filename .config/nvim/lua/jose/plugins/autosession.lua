@@ -60,7 +60,16 @@ return {
       -- Post-restore hook to set up environment after session restore
       post_restore_cmds = {
         function()
-          -- Refresh file tree if it exists
+          -- Drop directory buffers left over from `nvim .` (netrw / dir arg).
+          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
+              local buftype = vim.bo[buf].buftype
+              local ft = vim.bo[buf].filetype
+              if buftype == "directory" or ft == "netrw" then
+                pcall(vim.api.nvim_buf_delete, buf, { force = true })
+              end
+            end
+          end
           pcall(vim.cmd, "NvimTreeRefresh")
         end,
       },
