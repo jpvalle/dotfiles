@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Install Homebrew packages from layered Brewfiles (base + optional work).
+set -euo pipefail
+
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BREW_DIR="$DOTFILES/brew"
+
+if ! command -v brew &>/dev/null; then
+  echo "ERROR: Homebrew not found. Install from https://brew.sh" >&2
+  exit 1
+fi
+
+files=("$BREW_DIR/Brewfile.base")
+if [[ -f "$BREW_DIR/Brewfile.work" ]]; then
+  files+=("$BREW_DIR/Brewfile.work")
+  echo "Including work Brewfile: ${BREW_DIR}/Brewfile.work"
+fi
+
+cat "${files[@]}" | brew bundle install --file=-

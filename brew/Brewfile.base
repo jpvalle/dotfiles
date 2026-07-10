@@ -147,10 +147,6 @@ brew "koekeishiya/formulae/skhd"
 brew "koekeishiya/formulae/yabai"
 # JDK from the Java User Group (JUG)
 cask "adoptopenjdk"
-# Brings the power of Copilot coding agent directly to your terminal
-cask "copilot-cli"
-# Command-line agent for Cursor
-cask "cursor-cli"
 cask "font-monaspice-nerd-font"
 cask "font-noto-sans"
 cask "font-sauce-code-pro-nerd-font"
@@ -158,8 +154,6 @@ cask "font-sauce-code-pro-nerd-font"
 cask "ghostty"
 # Desktop automation application
 cask "hammerspoon"
-# Development environment
-cask "hashicorp-vagrant"
 # File system integration
 cask "macfuse"
 # Text editor
@@ -170,16 +164,10 @@ cask "monitorcontrol"
 cask "podman-desktop"
 # Quick Look generator for Markdown files
 cask "qlmarkdown"
-# Kubernetes and container management on the desktop
-cask "rancher"
 # Open-source code editor
 cask "visual-studio-code"
 # Rust-based terminal
 cask "warp"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
-uv "dtex-tools"
-uv "setuptools-scm"
-npm "mcp-atlassian"
 npm "neovim"
-npm "xo-cli"

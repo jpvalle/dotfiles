@@ -47,10 +47,16 @@ fi
 echo ""
 echo "Bootstrap complete. Manual steps if not already done:"
 if [[ "$(uname)" == Darwin ]]; then
-  echo "  1. brew bundle install --file=$DOTFILES/Brewfile"
+  echo "  1. $DOTFILES/bin/brew-bundle-install"
+  echo "  2. oh-my-zsh: sh -c \"\$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\" --keep-zshrc"
+  echo "  3. git config --local user.email \"ID+username@users.noreply.github.com\"  # in this repo only"
+  echo "  4. exec zsh"
 else
-  echo "  1. Install packages with apt/dnf (see README.md — Linux section)"
+  echo "  1. $DOTFILES/bin/packages-install"
+  echo "  2. git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \\"
+  echo "        \${XDG_DATA_HOME:-\$HOME/.local/share}/powerlevel10k"
+  echo "  3. oh-my-zsh (if needed): sh -c \"\$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\" --keep-zshrc"
+  echo "  4. git config --local user.email \"ID+username@users.noreply.github.com\"  # in this repo only"
+  echo "  5. exec zsh"
+  echo "     (full Linux shell notes: README — Linux shell setup)"
 fi
-echo "  2. oh-my-zsh: sh -c \"\$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)\" --keep-zshrc"
-echo "  3. git config --local user.email \"ID+username@users.noreply.github.com\"  # in this repo only"
-echo "  4. exec zsh"

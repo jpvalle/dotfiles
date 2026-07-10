@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+# Install Linux packages from layered lists (base + optional work).
+set -euo pipefail
+
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PKG_DIR="$DOTFILES/packages"
+
+read_packages() {
+  local file="$1"
+  [[ -f "$file" ]] || return 0
+  grep -vE '^\s*($|#)' "$file"
+}
+
+install_apt() {
+  local -a lists=("$PKG_DIR/apt.txt")
+  [[ -f "$PKG_DIR/work.apt.txt" ]] && lists+=("$PKG_DIR/work.apt.txt")
+
+  local -a packages=()
+  local list
+  for list in "${lists[@]}"; do
+    while IFS= read -r pkg; do
+      [[ -n "$pkg" ]] && packages+=("$pkg")
+    done < <(read_packages "$list")
+  done
+
+  if ((${#packages[@]} == 0)); then
+    echo "No packages listed in ${lists[*]}"
+    return 0
+  fi
+
+  echo "Installing apt packages: ${packages[*]}"
+  sudo apt-get update
+  sudo apt-get install -y "${packages[@]}"
+}
+
+install_dnf() {
+  local -a lists=("$PKG_DIR/dnf.txt")
+  [[ -f "$PKG_DIR/work.dnf.txt" ]] && lists+=("$PKG_DIR/work.dnf.txt")
+
+  local -a packages=()
+  local list
+  for list in "${lists[@]}"; do
+    while IFS= read -r pkg; do
+      [[ -n "$pkg" ]] && packages+=("$pkg")
+    done < <(read_packages "$list")
+  done
+
+  if ((${#packages[@]} == 0)); then
+    echo "No packages listed in ${lists[*]}"
+    return 0
+  fi
+
+  echo "Installing dnf packages: ${packages[*]}"
+  sudo dnf install -y "${packages[@]}"
+}
+
+case "$(uname -s)" in
+  Linux)
+    if command -v apt-get &>/dev/null; then
+      install_apt
+    elif command -v dnf &>/dev/null; then
+      install_dnf
+    else
+      echo "ERROR: No supported package manager found (apt-get or dnf)." >&2
+      exit 1
+    fi
+    ;;
+  *)
+    echo "ERROR: packages-install is for Linux only. On macOS use bin/brew-bundle-install." >&2
+    exit 1
+    ;;
+esac

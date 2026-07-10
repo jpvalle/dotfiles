@@ -1,0 +1,49 @@
+# Debian/Ubuntu packages matching brew/Brewfile.base.
+# One package name per line. Lines starting with # are ignored.
+# Install: bin/packages-install
+#
+# Some Brewfile entries have no apt equivalent (macOS casks, skhd/yabai, colima).
+# Install those via upstream, cargo, pipx, or npm instead — see README.
+
+stow
+zsh
+fzf
+neovim
+tmux
+git
+git-delta
+bat
+ripgrep
+fd-find
+tree
+wget
+curl
+gcc
+golang-go
+nodejs
+npm
+python3
+python3-pip
+python3-venv
+pipx
+docker.io
+docker-compose-plugin
+podman
+kubectl
+direnv
+socat
+qemu-system-x86
+postgresql
+rabbitmq-server
+silversearcher-ag
+luarocks
+julia
+groovy
+gnupg
+rpm
+rpm2cpio
+autossh
+bc
+ctags
+less
+virtualenv
