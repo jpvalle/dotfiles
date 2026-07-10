@@ -137,6 +137,8 @@ brew "tree"
 brew "tree-sitter-cli"
 # Tool for creating isolated virtual python environments
 brew "virtualenv"
+# Modern Python for theme-sync (tomllib) and CLI tools; overrides macOS /usr/bin/python3
+brew "python@3.14"
 # Internet file retriever
 brew "wget"
 # JavaScript package manager
