@@ -1,5 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
+	event = "CursorMoved",
 	dependencies = { "catppuccin/nvim", "nvim-tree/nvim-web-devicons" },
 	config = function()
 		local lualine_require = require("lualine_require")

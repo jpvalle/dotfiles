@@ -17,11 +17,25 @@ require("lazy").setup({
 	{ import = "jose.plugins.lsp" }, -- Enable LSP plugins
 }, {
 	checker = {
-		enabled = true,
+		enabled = false,
 		notify = false,
 	},
 	change_detection = {
 		notify = false,
+	},
+	performance = {
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"matchit",
+				"matchparen",
+				"netrwPlugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
 	},
 	rocks = {
 		enabled = false, -- Disable luarocks support to clean up warnings

@@ -15,8 +15,9 @@ return {
       "<leader>lg",
       function()
         require("jose.core.nvim-server").export_env()
-        require("jose.core.theme-sync").refresh_lazygit()
-        vim.cmd("LazyGit")
+        require("jose.core.theme-sync").refresh_lazygit(function()
+          vim.cmd("LazyGit")
+        end)
       end,
       desc = "Open LazyGit",
     },
@@ -24,8 +25,9 @@ return {
       "<leader>lf",
       function()
         require("jose.core.nvim-server").export_env()
-        require("jose.core.theme-sync").refresh_lazygit()
-        vim.cmd("LazyGitCurrentFile")
+        require("jose.core.theme-sync").refresh_lazygit(function()
+          vim.cmd("LazyGitCurrentFile")
+        end)
       end,
       desc = "LazyGit Current File",
     },

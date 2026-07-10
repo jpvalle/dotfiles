@@ -1,5 +1,11 @@
 return {
 	"akinsho/toggleterm.nvim",
+	cmd = "ToggleTerm",
+	keys = {
+		{ "<leader>;", "<cmd>ToggleTerm direction=horizontal<CR>", desc = "Toggle terminal (50% height)" },
+		{ "<leader>tv", "<cmd>ToggleTerm direction=vertical<CR>", desc = "Toggle vertical terminal (50% width)" },
+		{ "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", desc = "Toggle floating terminal" },
+	},
 	config = function()
 		require("toggleterm").setup({
 			-- Dynamic sizing - always 50% of screen height
@@ -22,15 +28,6 @@ return {
 			close_on_exit = true,
 			shell = vim.o.shell,
 		})
-
-		local k = vim.keymap
-
-		-- Manual keybinding (will use the size function above)
-		k.set("n", "<leader>;", "<cmd>:ToggleTerm direction=horizontal<CR>", { desc = "Toggle terminal (50% height)" })
-
-		-- Additional terminal keybindings
-		k.set("n", "<leader>tv", "<cmd>:ToggleTerm direction=vertical<CR>", { desc = "Toggle vertical terminal (50% width)" })
-		k.set("n", "<leader>tf", "<cmd>:ToggleTerm direction=float<CR>", { desc = "Toggle floating terminal" })
 
 		local function set_terminal_keymaps()
 			local opts = { buffer = 0 }

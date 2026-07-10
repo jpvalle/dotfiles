@@ -1,5 +1,11 @@
 return {
   "olimorris/codecompanion.nvim",
+  cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
+  keys = {
+    { "<leader>ac", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "Toggle AI Chat Sidebar" },
+    { "<leader>aa", "<cmd>CodeCompanion<cr>", mode = { "n", "v" }, desc = "Inline AI Actions / Refactor" },
+    { "<leader>ae", "<cmd>CodeCompanionChat Add<cr>", mode = "v", desc = "Send Selected Code to Chat" },
+  },
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -39,9 +45,5 @@ return {
       },
     })
 
-    -- Handy keymaps to trigger the AI interfaces instantly
-    vim.keymap.set({ "n", "v" }, "<leader>ac", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "Toggle AI Chat Sidebar" })
-    vim.keymap.set({ "n", "v" }, "<leader>aa", "<cmd>CodeCompanion<cr>", { desc = "Inline AI Actions / Refactor" })
-    vim.keymap.set("v", "<leader>ae", "<cmd>CodeCompanionChat Add<cr>", { desc = "Send Selected Code to Chat" })
   end,
 }

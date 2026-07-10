@@ -1,7 +1,7 @@
 return {
 	"lewis6991/gitsigns.nvim",
-	-- Load when buffers open (not VeryLazy) so files from lazygit get highlights immediately.
-	event = { "BufReadPost", "BufNewFile" },
+	-- Defer until first interaction so startup stays responsive.
+	event = "CursorMoved",
 	opts = {
 		signs = {
 			add = { text = "▎" },
@@ -22,7 +22,6 @@ return {
 		numhl = true,
 		linehl = false,
 		word_diff = true,
-		word_diff_opts = { char_len = true },
 		watch_gitdir = {
 			enable = true,
 			follow_files = true,

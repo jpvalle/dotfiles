@@ -1,6 +1,6 @@
 return {
   "pearofducks/ansible-vim",
-  lazy = false,
+  ft = { "ansible", "yaml.ansible" },
   init = function()
     -- Map template paths to the syntax of the rendered file (jinja2 is appended automatically).
     vim.g.ansible_template_syntaxes = {

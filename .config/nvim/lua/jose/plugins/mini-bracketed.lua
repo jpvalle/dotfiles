@@ -1,6 +1,7 @@
 return {
   "echasnovski/mini.bracketed",
   version = "*",
+  event = "VeryLazy",
   config = function()
     require("mini.bracketed").setup({
       -- First-level elements are tables describing behavior of a target:

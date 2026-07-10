@@ -26,7 +26,7 @@ return {
         "mcp-venv", -- For your dtex-mcp-servers
       },
     },
-    event = "VeryLazy",
+    event = "CursorMoved",
     keys = {
       { "<leader>vs", "<cmd>VenvSelect<cr>" },
       { "<leader>vc", "<cmd>VenvSelectCached<cr>" },

@@ -1,5 +1,6 @@
 return {
 	"akinsho/bufferline.nvim",
+	event = "CursorMoved",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	version = "*",
 	config = function()

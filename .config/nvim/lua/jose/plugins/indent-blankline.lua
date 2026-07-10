@@ -1,6 +1,6 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
-  event = { "BufReadPre", "BufNewFile" },
+  event = "CursorMoved",
   main = "ibl",
   opts = {
     indent = { char = "┊" },

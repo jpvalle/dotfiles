@@ -3,6 +3,28 @@ local M = {}
 
 local last_applied = nil
 
+local FAMILY_PLUGINS = {
+	catppuccin = "catppuccin",
+	dracula = "dracula",
+	gruvbox = "gruvbox.nvim",
+	["rose-pine"] = "rose-pine",
+	tokyonight = "tokyonight.nvim",
+	nord = "nord-vim",
+	solarized = "solarized.nvim",
+}
+
+local function ensure_theme_plugin(theme)
+	local plugin = FAMILY_PLUGINS[theme.family]
+	if not plugin then
+		return
+	end
+
+	local ok, lazy = pcall(require, "lazy")
+	if ok then
+		lazy.load({ plugins = { plugin } })
+	end
+end
+
 local function state_path()
   return vim.fn.expand("~/.local/state/theme/current.json")
 end
@@ -43,6 +65,7 @@ local function fallback_theme()
       background = "dark",
       colorscheme = "catppuccin-mocha",
       p10k = "mocha",
+      family = "catppuccin",
     }
   end
   return {
@@ -50,15 +73,30 @@ local function fallback_theme()
     background = "light",
     colorscheme = "catppuccin-latte",
     p10k = "latte",
+    family = "catppuccin",
   }
 end
 
 local function resolve_theme(state)
+  local os_appearance = get_macos_appearance()
+
   if state and state.tools then
+    local colorscheme = state.tools.nvim or "catppuccin-mocha"
+    local appearance = state.appearance or os_appearance
+    local background = state.tools.nvim_background or appearance
+
+    if state.mode == "system" then
+      appearance = os_appearance
+      background = os_appearance
+      if state.family == "catppuccin" or colorscheme:match("^catppuccin%-") then
+        colorscheme = os_appearance == "dark" and "catppuccin-mocha" or "catppuccin-latte"
+      end
+    end
+
     return {
-      appearance = state.appearance or "dark",
-      background = state.tools.nvim_background or state.appearance or "dark",
-      colorscheme = state.tools.nvim or "catppuccin-mocha",
+      appearance = appearance,
+      background = background,
+      colorscheme = colorscheme,
       p10k = state.tools.p10k,
       family = state.family,
     }
@@ -66,8 +104,14 @@ local function resolve_theme(state)
   return fallback_theme()
 end
 
+--- Set `background` from macOS before plugins load (~30ms, non-blocking for UX).
+function M.bootstrap()
+  vim.o.background = get_macos_appearance()
+end
+
 function M.apply(theme)
   theme = theme or resolve_theme(read_theme_state())
+  ensure_theme_plugin(theme)
 
   local key = theme.appearance .. ":" .. theme.colorscheme .. ":" .. theme.background
   if key == last_applied then
@@ -76,7 +120,7 @@ function M.apply(theme)
   last_applied = key
 
   vim.o.background = theme.background
-  vim.cmd.colorscheme(theme.colorscheme)
+  pcall(vim.cmd.colorscheme, theme.colorscheme)
 
   if package.loaded["lualine"] then
     vim.schedule(function()
@@ -86,13 +130,13 @@ function M.apply(theme)
 end
 
 function M.setup()
-  M.apply(resolve_theme(sync_theme_state()))
+  M.apply(resolve_theme(read_theme_state()))
 
   vim.api.nvim_create_autocmd("FocusGained", {
     group = vim.api.nvim_create_augroup("AutoTheme", { clear = true }),
     callback = function()
-      vim.schedule(function()
-        sync_theme_state()
+      require("jose.core.theme-sync").run_async(function()
+        last_applied = nil
         M.apply(resolve_theme(read_theme_state()))
       end)
     end,
@@ -100,18 +144,19 @@ function M.setup()
   })
 
   vim.api.nvim_create_user_command("ThemeSync", function()
-    sync_theme_state()
-    last_applied = nil
-    M.apply(resolve_theme(read_theme_state()))
-    local theme = resolve_theme(read_theme_state())
-    print(
-      string.format(
-        "Theme synced: %s / %s (%s)",
-        theme.family or "catppuccin",
-        theme.p10k or "?",
-        theme.appearance or "?"
+    require("jose.core.theme-sync").run_async(function()
+      last_applied = nil
+      M.apply(resolve_theme(read_theme_state()))
+      local theme = resolve_theme(read_theme_state())
+      print(
+        string.format(
+          "Theme synced: %s / %s (%s)",
+          theme.family or "catppuccin",
+          theme.p10k or "?",
+          theme.appearance or "?"
+        )
       )
-    )
+    end)
   end, { desc = "Sync theme from ~/.config/theme/manifest.toml" })
 end
 
@@ -131,6 +176,7 @@ function M.set_theme(name)
   local theme = resolve_theme(read_theme_state())
   theme.appearance = appearance
   theme.background = appearance
+  theme.family = "catppuccin"
   if appearance == "dark" then
     theme.colorscheme = "catppuccin-mocha"
     theme.p10k = "mocha"

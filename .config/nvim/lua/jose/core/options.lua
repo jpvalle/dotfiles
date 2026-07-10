@@ -21,8 +21,7 @@ opt.smartcase = true -- Mixed case implies case-sensitive search
 opt.cursorline = true -- highlight the current cursor line
 
 -- appearance
-opt.termguicolors = true -- turn on termguicolors
-opt.background = "light" -- default for colorschemes that have either dark or light
+opt.termguicolors = true -- turn on termguicolors (also set in init.lua)
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 -- backspace
@@ -38,8 +37,8 @@ opt.splitbelow = true -- split horizontal window to the bottom
 -- turn off swapfiles
 opt.swapfile = false
 
--- Session options for better session restoration
-opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+-- Session options — skip terminals so restore stays fast
+opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 
 -- Diagnostic configuration - COMPLETELY DISABLED
 vim.diagnostic.config({
