@@ -29,5 +29,3 @@ keybinding:
     scrollDownMain: "<c-e>"
     scrollUpMain-alt1: "K"
     scrollDownMain-alt1: "J"
-    scrollUpMain-alt2: "<ctrl+u>"
-    scrollDownMain-alt2: "<ctrl+d>"
