@@ -9,11 +9,11 @@ git:
   log:
     order: "topo-order"
   gitLogTimezone: "UTC"
+# Edit: ~/.config/lazygit/bin/edit-from-nvim.sh (parent nvim when reachable, else standalone nvim)
 os:
-  # Open files in the parent Neovim session (uses $NVIM_LISTEN_ADDRESS set per-session)
-  edit: 'nvr --remote-tab {{filename}}'
-  editAtLine: 'nvr +{{line}} --remote-tab {{filename}}'
-  editInTerminal: false
+  edit: "$HOME/.config/lazygit/bin/edit-from-nvim.sh {{filename}}"
+  editAtLine: "$HOME/.config/lazygit/bin/edit-from-nvim.sh {{filename}} {{line}}"
+  editInTerminal: true
 gui:
   sidePanelWidth: 0.3333
   mainPanelSplitMode: 'flexible'

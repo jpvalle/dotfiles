@@ -40,5 +40,6 @@ return {
 
     vim.g.lazygit_use_custom_config_file_path = 1
     require("jose.core.theme-sync").refresh_lazygit()
+    require("jose.core.lazygit-edit").setup()
   end,
 }
