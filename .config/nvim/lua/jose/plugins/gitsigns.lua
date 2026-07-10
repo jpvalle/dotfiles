@@ -67,8 +67,11 @@ return {
 			end, "Previous git hunk")
 
 			map("n", "<leader>gp", function()
-				gs.preview_hunk()
-			end, "Preview git hunk")
+				gs.preview_hunk_inline()
+			end, "Preview hunk inline (scroll with j/k)")
+			map("n", "<leader>gP", function()
+				require("jose.core.gitsigns-preview").open_float()
+			end, "Preview hunk in float")
 			map("n", "<leader>gs", function()
 				gs.stage_hunk()
 			end, "Stage git hunk")

@@ -22,3 +22,12 @@ refresher:
   refreshInterval: 10
 confirmOnQuit: false
 quitOnTopLevelReturn: true
+keybinding:
+  universal:
+    # Vim-style scroll for the diff/patch pane (j/k move selection, these scroll content)
+    scrollUpMain: "<c-y>"
+    scrollDownMain: "<c-e>"
+    scrollUpMain-alt1: "K"
+    scrollDownMain-alt1: "J"
+    scrollUpMain-alt2: "<ctrl+u>"
+    scrollDownMain-alt2: "<ctrl+d>"
