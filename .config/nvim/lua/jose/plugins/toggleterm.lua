@@ -8,6 +8,8 @@ return {
 	},
 	config = function()
 		require("toggleterm").setup({
+			-- Skip tmux copy sentinels in embedded shells (Neovim renders ZW* chars literally).
+			env = { JOSE_NVIM_TERM = "1" },
 			-- Dynamic sizing - always 50% of screen height
 			size = function(term)
 				if term.direction == "horizontal" then
